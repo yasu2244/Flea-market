@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Fortify\Features;
+use Illuminate\Support\Facades\Auth;
 
 return [
 
@@ -73,7 +74,11 @@ return [
     |
     */
 
-    'home' => '/home',
+    'home' => function () {
+        $user = Auth::user();
+        return $user && !$user->profile_completed ? '/profile/create' : '/index';
+    },
+
 
     /*
     |--------------------------------------------------------------------------
@@ -149,11 +154,11 @@ return [
         // Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
-        Features::twoFactorAuthentication([
-            'confirm' => true,
-            'confirmPassword' => true,
-            // 'window' => 0,
-        ]),
+        // Features::twoFactorAuthentication([
+        //     'confirm' => true,
+        //     'confirmPassword' => true,
+        //     // 'window' => 0,
+        // ]),
     ],
 
 ];

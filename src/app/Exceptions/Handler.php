@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 
 class Handler extends ExceptionHandler
 {
@@ -26,5 +27,19 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * カスタムエラーメッセージを設定
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ThrottleRequestsException) {
+            return redirect()->back()->withErrors([
+                'throttle' => 'ログイン試行回数が多すぎます。しばらくしてから再試行してください。',
+            ]);
+        }
+
+        return parent::render($request, $exception);
     }
 }
