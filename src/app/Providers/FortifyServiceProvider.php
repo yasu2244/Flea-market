@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
@@ -17,18 +18,15 @@ use App\Actions\Fortify\UpdateUserProfileInformation;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
-     * サービスを登録
-     */
-    public function register()
-    {
-        parent::register();
-    }
-
-    /**
      * サービスのブート処理
      */
     public function boot()
     {
+        // ログイン試行回数の制限を先に適用
+        RateLimiter::for('login', function () {
+            return Limit::perMinute(20); // ログイン失敗は20回まで
+        });
+
         // ユーザー作成、更新、リセットの設定
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
@@ -39,19 +37,18 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::loginView(fn () => view('auth.login'));
         Fortify::registerView(fn () => view('auth.register'));
 
-        RateLimiter::for('login', function () {
-             return Limit::perMinute(20); // ログイン失敗は20回まで
-        });
-
         // 登録後のリダイレクト先をプロフィール設定画面へ
         Fortify::redirects('register', function () {
             $user = Auth::user();
             return $user && !$user->profile_completed ? '/profile/create' : '/index';
         });
 
-        // LoginRequestを適用
-        Fortify::authenticateUsing(function ($request) {
-            $validated = app(LoginRequest::class)->validated();
+        // ログイン認証時のバリデーションとリダイレクト
+        Fortify::authenticateUsing(function (Request $request) {
+            $validated = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
 
             if (!Auth::attempt($validated)) {
                 throw ValidationException::withMessages([

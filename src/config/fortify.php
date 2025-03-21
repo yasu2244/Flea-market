@@ -75,7 +75,7 @@ return [
     */
 
     'home' => function () {
-        $user = Auth::user();
+        $user = Auth::check() ? Auth::user() : null;
         return $user && !$user->profile_completed ? '/profile/create' : '/index';
     },
 
