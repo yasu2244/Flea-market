@@ -1,0 +1,112 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 40px;
+}
+
+.left-column {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-column img {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #f0f0f0;
+}
+
+.right-column {
+    width: 50%;
+}
+
+.item-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.item-brand {
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.item-price {
+    font-size: 22px;
+    color: #e60023;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.favorite-comment {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #555;
+}
+
+.purchase-button {
+    background-color: #f44;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    display: inline-block;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 8px;
+}
+
+.category-tag {
+    background-color: #eee;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.comment-box {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.comment-box i {
+    font-size: 24px;
+    margin-right: 12px;
+    color: #666;
+}
+
+.comment-content {
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    background-color: #f44;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+}

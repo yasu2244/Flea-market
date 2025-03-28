@@ -3,12 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Fortify;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CommentController;
 
 Fortify::loginView(fn () => view('auth.login'));
 Fortify::registerView(fn () => view('auth.register'));
 
-Route::get('/', [ProductController::class, 'index'])->name('products.index');
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
+Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
 
 Route::middleware(['auth'])->group(function () {
 

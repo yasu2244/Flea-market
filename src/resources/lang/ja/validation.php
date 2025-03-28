@@ -7,6 +7,9 @@ return [
     'min' => [
         'string' => ':attribute は :min 文字以上で入力してください。',
     ],
+    'max' => [
+        'string' => ':attribute は :max 文字以内で入力してください。',
+    ],
     'confirmed' => ':attribute が確認用と一致しません。',
     'regex' => ':attribute の形式が正しくありません。',
     'mimes' => ':attribute は jpeg または png の形式でアップロードしてください。',
@@ -20,5 +23,6 @@ return [
         'address' => '住所',
         'building' => '建物名',
         'profile_image' => 'プロフィール画像',
+        'content' => '商品コメント',
     ],
 ];
