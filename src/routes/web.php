@@ -6,10 +6,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Fortify::loginView(fn () => view('auth.login'));
 Fortify::registerView(fn () => view('auth.register'));
 
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');

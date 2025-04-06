@@ -40,23 +40,8 @@ class FortifyServiceProvider extends ServiceProvider
         // 登録後のリダイレクト先をプロフィール設定画面へ
         Fortify::redirects('register', function () {
             $user = Auth::user();
-            return $user && !$user->profile_completed ? '/profile/create' : '/index';
+            return $user && !$user->profile_completed ? '/profile/create' : '/';
         });
 
-        // ログイン認証時のバリデーションとリダイレクト
-        Fortify::authenticateUsing(function (Request $request) {
-            $validated = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
-
-            if (!Auth::attempt($validated)) {
-                throw ValidationException::withMessages([
-                    'email' => 'ログイン情報が登録されていません',
-                ]);
-            }
-
-            return Auth::user();
-        });
     }
 }
