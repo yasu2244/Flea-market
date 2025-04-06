@@ -11,7 +11,7 @@ class CategoryItemSeeder extends Seeder
     public function run(): void
     {
         $mapping = [
-            1 => ['ファッション', 'メンズ'],
+            1 => ['ファッション', 'メンズ', 'アクセサリー'],
             2 => ['家電'],
             3 => ['キッチン'],
             4 => ['ファッション', 'メンズ'],

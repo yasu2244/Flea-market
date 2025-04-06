@@ -19,6 +19,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user1,
                 'name' => '腕時計',
+                'brand_name'  => 'watchA',
                 'price' => 15000,
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'image' => 'assets/images/items/Armani+Mens+Clock.jpg',
@@ -28,6 +29,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user1,
                 'name' => 'HDD',
+                'brand_name'  => 'NIWA',
                 'price' => 5000,
                 'description' => '高速で信頼性の高いハードディスク',
                 'image' => 'assets/images/items/HDD+Hard+Disk.jpg',
@@ -46,6 +48,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user1,
                 'name' => '革靴',
+                'brand_name'  => 'shoesB',
                 'price' => 4000,
                 'description' => 'クラシックなデザインの革靴',
                 'image' => 'assets/images/items/Leather+Shoes+Product+Photo.jpg',
@@ -55,6 +58,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user1,
                 'name' => 'ノートPC',
+                'brand_name'  => 'HURUTA',
                 'price' => 45000,
                 'description' => '高性能なノートパソコン',
                 'image' => 'assets/images/items/Living+Room+Laptop.jpg',
@@ -66,6 +70,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user2,
                 'name' => 'マイク',
+                'brand_name'  => 'オーディオC',
                 'price' => 8000,
                 'description' => '高音質のレコーディング用マイク',
                 'image' => 'assets/images/items/Music+Mic+4632231.jpg',
@@ -75,6 +80,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user2,
                 'name' => 'ショルダーバッグ',
+                'brand_name'  => 'Bag-D',
                 'price' => 3500,
                 'description' => 'おしゃれなショルダーバッグ',
                 'image' => 'assets/images/items/Purse+fashion+pocket.jpg',
@@ -84,6 +90,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user2,
                 'name' => 'タンブラー',
+                'brand_name'  => '家具ショップE',
                 'price' => 500,
                 'description' => '使いやすいタンブラー',
                 'image' => 'assets/images/items/Tumbler+souvenir.jpg',
@@ -102,6 +109,7 @@ class ItemsSeeder extends Seeder
             [
                 'user' => $user2,
                 'name' => 'メイクセット',
+                'brand_name'  => 'コスメティックスF',
                 'price' => 2500,
                 'description' => '便利なメイクアップセット',
                 'image' => 'assets/images/items/外出メイクアップセット.jpg',
@@ -116,6 +124,7 @@ class ItemsSeeder extends Seeder
             Item::create([
                 'user_id' => $item['user']->id,
                 'name' => $item['name'],
+                'brand' => $item['brand_name'] ?? null,
                 'price' => $item['price'],
                 'description' => $item['description'],
                 'image_path' => $item['image'],

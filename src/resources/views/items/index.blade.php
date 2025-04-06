@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
-<link rel="stylesheet" href="{{ asset('assets/css/items/index.css') }}">
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/items/index.css') }}">
+@endsection
 
+@section('content')
 <div class="item-list">
     @forelse($items as $item)
         <div class="item-card">

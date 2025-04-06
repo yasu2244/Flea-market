@@ -12,7 +12,11 @@
     </div>
 @endif
 
-
+@if (session('error'))
+    <div class="error-container">
+        <p class="error-message">{{ session('error') }}</p>
+    </div>
+@endif
 
 <div class="login-container">
     <h2>ログイン</h2>

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/common.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/header.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     @yield('css')
 </head>
 

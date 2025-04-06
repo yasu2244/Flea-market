@@ -9,7 +9,8 @@
     width: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 25.56px;
 }
 
 .left-column img {
@@ -25,20 +26,27 @@
 }
 
 .item-name {
-    font-size: 24px;
+    font-size: 40px;
     font-weight: bold;
+    margin-bottom: 4px;
 }
 
 .item-brand {
+    font-size: 13px;
     color: #888;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .item-price {
-    font-size: 22px;
-    color: #e60023;
+    font-size: 32px;
+    color: #000;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.item-price .yen {
+    font-size: 18px;
+    margin-right: 2px;
 }
 
 .favorite-comment {
@@ -51,62 +59,133 @@
     background-color: #f44;
     color: #fff;
     font-weight: bold;
-    padding: 10px 24px;
+    padding: 10px 36px;
     border: none;
     border-radius: 4px;
     margin-bottom: 24px;
     display: inline-block;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
 }
 
 .section-title {
-    font-size: 16px;
+    font-size: 26px;
     font-weight: bold;
-    margin-top: 24px;
-    margin-bottom: 8px;
+    margin-top: 40px;
+    margin-bottom: 6px;
 }
 
 .category-tag {
     background-color: #eee;
-    padding: 4px 10px;
+    padding: 4px 20px;
     border-radius: 12px;
     font-size: 12px;
     margin-right: 6px;
 }
 
 .comment-box {
-    background-color: #f9f9f9;
     border-radius: 4px;
     padding: 12px;
     margin-bottom: 12px;
     display: flex;
-    align-items: center;
+    gap: 12px;
+    align-items: flex-start;
 }
 
-.comment-box i {
-    font-size: 24px;
-    margin-right: 12px;
-    color: #666;
+.comment-box img,
+.comment-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: rgb(229, 229, 229);
 }
 
 .comment-content {
     font-size: 14px;
     color: #333;
+    background-color: rgb(229, 229, 229);
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+}
+
+.comment-user {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.comment-form {
+    margin-top: 24px;
 }
 
 .comment-form textarea {
     width: 100%;
+    height: 120px;
     padding: 10px;
     border: 1px solid #ccc;
-    resize: none;
+    resize: vertical;
     border-radius: 4px;
 }
 
 .comment-form button {
     background-color: #f44;
     color: #fff;
+    width: 100%;
     font-weight: bold;
     padding: 10px 24px;
     border: none;
     border-radius: 4px;
-    margin-top: 10px;
+    margin: 22px 0 32px 0;
+}
+
+/* いいねボタン全体 */
+.like-button {
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column; /* 縦並び */
+    align-items: center;
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+/* 星アイコン */
+.like-button i {
+    font-size: 1.8rem;
+    transition: color 0.2s ease;
+}
+
+/* いいね済み */
+.like-button .liked {
+    color: #facc15;
+}
+
+/* 数字（いいね数） */
+.like-button .like-count {
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.comment-icon {
+    display: inline-flex;
+    flex-direction: column;  /* 縦並び */
+    align-items: center;
+    font-size: 1.2rem;
+    color: #555;
+    margin-left: 12px;
+}
+
+.comment-icon i {
+    font-size: 1.8rem;
+}
+
+.comment-icon .comment-count {
+    font-size: 0.9rem;
+    margin-top: 2px;
 }

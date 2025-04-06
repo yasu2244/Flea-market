@@ -8,11 +8,15 @@ use App\Models\Comment;
 
 class CommentController extends Controller
 {
-    public function store(CommentRequest $request, Product $item)
+    public function store(CommentRequest $request, Item $item)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'コメントを投稿するにはログインが必要です');
+        }
+
         Comment::create([
             'user_id' => auth()->id(),
-            'product_id' => $item->id,
+            'item_id' => $item->id,
             'content' => $request->content,
         ]);
 
