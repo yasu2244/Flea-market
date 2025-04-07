@@ -21,6 +21,38 @@ class ItemController extends Controller
         return view('items.index', compact('items'));
     }
 
+    public function switchTab(Request $request)
+    {
+        $tab = $request->query('tab');
+
+        if ($tab === 'mylist') {
+            if (!Auth::check()) {
+                return view('items.partials.item_list', [
+                    'items' => collect([]),
+                    'tab' => 'mylist',
+                ]);
+            }
+
+            $items = Item::whereIn('id', function ($query) {
+                $query->select('item_id')
+                    ->from('item_likes')
+                    ->where('user_id', Auth::id());
+            })->latest()->get();
+
+            return view('items.partials.item_list', [
+                'items' => $items,
+                'tab' => 'mylist',
+            ]);
+        }
+
+        // おすすめ（全件）
+        $items = Item::latest()->get();
+
+        return view('items.partials.item_list', [
+            'items' => $items,
+            'tab' => 'recommend',
+        ]);
+    }
 
     public function show($id)
     {

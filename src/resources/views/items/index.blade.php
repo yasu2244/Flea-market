@@ -5,21 +5,16 @@
 @endsection
 
 @section('content')
-<div class="item-list">
-    @forelse($items as $item)
-        <div class="item-card">
-            <a href="{{ route('items.show', $item->id) }}">
-                <div class="item-image-wrapper">
-                    <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}" class="item-image">
-                    @if($item->is_sold)
-                        <span class="sold-label">SOLD</span>
-                    @endif
-                </div>
-            </a>
-            <p class="item-name">{{ $item->name }}</p>
-        </div>
-    @empty
-        <p>商品が見つかりません。</p>
-    @endforelse
+<ul class="tab-menu">
+    <li><a href="#" class="tab-link active" data-tab="recommend">おすすめ</a></li>
+    <li><a href="#" class="tab-link" data-tab="mylist">マイリスト</a></li>
+</ul>
+
+<div id="item-list-container">
+    @include('items.partials.item_list', ['items' => $items, 'tab' => 'recommend'])
 </div>
+@endsection
+
+@section('js')
+    <script src="{{ asset('assets/js/items/index.js') }}"></script>
 @endsection

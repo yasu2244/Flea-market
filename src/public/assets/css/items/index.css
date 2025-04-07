@@ -51,3 +51,37 @@
     font-size: 1rem;
     color: #333;
 }
+
+/* タブメニュー */
+.tab-menu {
+    display: flex;
+    gap: 24px;
+    padding: 0 24px;
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+}
+
+.tab-menu li {
+    display: inline-block;
+}
+
+.tab-link {
+    display: inline-block;
+    padding: 12px 0;
+    font-weight: bold;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+}
+
+.tab-link.active {
+    color: red;
+    border-color: red;
+}
+
+#item-list-container {
+    padding: 16px 24px;
+}
+
