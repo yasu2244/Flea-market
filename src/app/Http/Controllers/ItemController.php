@@ -8,15 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $keyword = $request->keyword;
 
         $items = Item::with('status')
-            ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
-            // ログイン済みユーザー：自分の商品を除外
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
+        ->when($keyword, function ($query, $keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('items.index', compact('items'));
     }

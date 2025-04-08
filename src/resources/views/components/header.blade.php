@@ -6,13 +6,18 @@
             </a>
         </h1>
 
+        <form action="{{ route('items.index') }}" method="GET" class="search-form">
+            <input type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request()->keyword }}">
+            <button type="submit" class="hidden-button">検索</button>
+        </form>
+
         @if (!(request()->routeIs('login') || request()->routeIs('register')))
             <nav class="nav">
                 <ul class="nav-list">
                     @guest
                         <li><a href="{{ route('login') }}" class="nav-link">ログイン</a></li>
                         <li><a href="#" class="nav-link">マイページ</a></li>
-                        <li><a href="#" class="nav-link">出品する</a></li>
+                        <li><a href="#" class="nav-link post-button">出品</a></li>
                     @else
                         <li>
                             <a href="{{ route('logout') }}"
@@ -22,7 +27,7 @@
                             </a>
                         </li>
                         <li><a href="#" class="nav-link">マイページ</a></li>
-                        <li><a href="#" class="nav-link">出品する</a></li>
+                        <li><a href="#" class="nav-link post-button">出品</a></li>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
