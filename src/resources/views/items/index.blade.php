@@ -5,14 +5,14 @@
 @endsection
 
 @section('content')
-<ul class="tab-menu">
-    <li><a href="#" class="tab-link active" data-tab="recommend">おすすめ</a></li>
-    <li><a href="#" class="tab-link" data-tab="mylist">マイリスト</a></li>
-</ul>
+    <ul class="tab-menu">
+        <li><a href="#" class="tab-link active" data-tab="recommend">おすすめ</a></li>
+        <li><a href="#" class="tab-link" data-tab="mylist">マイリスト</a></li>
+    </ul>
 
-<div id="item-list-container">
-    @include('items.partials.item_list', ['items' => $items, 'tab' => 'recommend'])
-</div>
+    <div id="item-list-container">
+        @include('items.partials.item_list', ['items' => $items, 'tab' => $tab ?? 'recommend'])
+    </div>
 @endsection
 
 @section('js')
