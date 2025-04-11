@@ -6,10 +6,16 @@
             </a>
         </h1>
 
-        <form action="{{ route('items.index') }}" method="GET" class="search-form">
-            <input type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request()->keyword }}">
+        <form action="{{ route('items.index') }}" method="GET" class="search-form" id="header-search-form">
+            <input
+                type="text"
+                name="keyword"
+                placeholder="なにをお探しですか？"
+                value="{{ request('keyword') }}"
+            >
             <button type="submit" class="hidden-button">検索</button>
         </form>
+
 
         @if (!(request()->routeIs('login') || request()->routeIs('register')))
             <nav class="nav">
