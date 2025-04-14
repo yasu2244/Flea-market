@@ -39,7 +39,13 @@
         </div>
 
         {{-- 購入ボタン --}}
-        <a href="#" class="purchase-button">購入手続きへ</a>
+        @auth
+            <a href="{{ route('purchase.show', $item->id) }}" class="purchase-button">購入手続きへ</a>
+        @else
+            <a href="{{ route('login') }}" class="purchase-button"
+            onclick="alert('購入手続きを利用するにはログインが必要です');">購入手続きへ</a>
+        @endauth
+
 
         {{-- 商品説明 --}}
         <h3 class="section-title">商品説明</h3>

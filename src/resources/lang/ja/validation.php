@@ -24,5 +24,7 @@ return [
         'building' => '建物名',
         'profile_image' => 'プロフィール画像',
         'content' => '商品コメント',
+        'payment_method' => '支払い方法',
+        'shipping_address' => '配送先',
     ],
 ];

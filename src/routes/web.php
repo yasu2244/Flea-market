@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Fortify::loginView(fn () => view('auth.login'));
@@ -16,6 +17,12 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/switch-tab', [ItemController::class, 'switchTab'])->name('items.switchTab');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
+
+//　商品購入
+Route::middleware(['auth'])->group(function () {
+    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+});
 
 //いいね機能
 Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->middleware('auth');
