@@ -6,18 +6,17 @@
             </a>
         </h1>
 
-        <form action="{{ route('items.index') }}" method="GET" class="search-form" id="header-search-form">
-            <input
-                type="text"
-                name="keyword"
-                placeholder="なにをお探しですか？"
-                value="{{ request('keyword') }}"
-            >
-            <button type="submit" class="hidden-button">検索</button>
-        </form>
-
-
         @if (!(request()->routeIs('login') || request()->routeIs('register')))
+            <form action="{{ route('items.index') }}" method="GET" class="search-form" id="header-search-form">
+                <input
+                    type="text"
+                    name="keyword"
+                    placeholder="なにをお探しですか？"
+                    value="{{ request('keyword') }}"
+                >
+                <button type="submit" class="hidden-button">検索</button>
+            </form>
+
             <nav class="nav">
                 <ul class="nav-list">
                     @guest
