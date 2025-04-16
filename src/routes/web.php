@@ -22,6 +22,9 @@ Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('
 Route::middleware(['auth'])->group(function () {
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
     Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+    Route::get('/purchase/{item}/address/edit', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
+    Route::post('/purchase/{item}/address/update', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+
 });
 
 //いいね機能

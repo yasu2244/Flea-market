@@ -39,12 +39,17 @@
         <div class="shipping-section">
             <div class="section-header">
                 <p>配送先</p>
-                <a href="{{ route('profile.edit') }}" class="change-link">変更する</a>
+                <a href="{{ route('purchase.address.edit', $item->id) }}" class="change-link">変更する</a>
             </div>
             <div class="shipping-address">
-                <p>〒 {{ $user->profile->postal_code ?? '未登録' }}</p>
-                <p>{{ $user->profile->address ?? '未登録' }}</p>
-                <p>{{ $user->profile->building ?? '' }}</p>
+                {{-- セッションに配送先がある場合はそれを優先 --}}
+                @php
+                    $address = session('purchase_address');
+                @endphp
+
+                <p>〒 {{ $address['postal_code'] ?? $user->profile->postal_code }}</p>
+                <p>{{ $address['address'] ?? $user->profile->address }}</p>
+                <p>{{ $address['building'] ?? $user->profile->building }}</p>
             </div>
         </div>
     </div>

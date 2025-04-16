@@ -85,5 +85,24 @@ class ProfileController extends Controller
 
         return redirect('/profile')->with('status', 'プロフィールが更新されました');
     }
+
+    public function editAddress()
+    {
+        $user = Auth::user();
+        return view('purchase.address_edit', compact('user'));
+    }
+
+    public function updateAddress(Request $request)
+    {
+        $validated = $request->validate([
+            'postal_code' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'building' => ['nullable', 'string'],
+        ]);
+
+        session()->put('purchase_address', $validated);
+
+        return redirect()->route('purchase.show', session('purchase_item_id')); // 戻る
+    }
 }
 
