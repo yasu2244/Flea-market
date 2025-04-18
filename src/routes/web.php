@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\MyPageController;
 
 Fortify::loginView(fn () => view('auth.login'));
 Fortify::registerView(fn () => view('auth.register'));
@@ -36,11 +37,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile/store', [ProfileController::class, 'store'])->name('profile.store');
 
-    // プロフィールの閲覧（ユーザー自身のプロフィール）
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-
+    // プロフィールの閲覧
+    Route::get('/mypage', [MyPageController::class, 'index'])->name('mypage.index');
+    // タブ切り替え用 AJAX
+    Route::get('/mypage/switch-tab', [MyPageController::class, 'switchTab'])->name('mypage.switchTab');
     // プロフィールの編集
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 });

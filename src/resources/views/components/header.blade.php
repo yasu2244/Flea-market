@@ -21,7 +21,7 @@
                 <ul class="nav-list">
                     @guest
                         <li><a href="{{ route('login') }}" class="nav-link">ログイン</a></li>
-                        <li><a href="#" class="nav-link">マイページ</a></li>
+                        <li><a href="{{ route('mypage.index') }}" class="nav-link">マイページ</a></li>
                         <li><a href="#" class="nav-link post-button">出品</a></li>
                     @else
                         <li>
@@ -31,7 +31,7 @@
                                 ログアウト
                             </a>
                         </li>
-                        <li><a href="#" class="nav-link">マイページ</a></li>
+                        <li><a href="{{ route('mypage.index') }}" class="nav-link">マイページ</a></li>
                         <li><a href="#" class="nav-link post-button">出品</a></li>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">

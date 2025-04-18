@@ -1,0 +1,183 @@
+/* マイページ ヘッダー */
+.mypage-header {
+    background-color: #fff;
+    padding: 24px;
+}
+
+.profile-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.profile-image-wrapper + .profile-name {
+    margin-left: 50px;
+}
+
+.profile-name + .profile-edit-btn {
+    margin-left: auto;
+}
+
+.profile-image-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-edit-btn {
+    padding: 10px 18px;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    background: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.profile-edit-btn:hover {
+    background-color: #FF5555;
+    color: #fff;
+}
+
+.profile-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-text h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.profile-text .btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    color: #007bff;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.profile-text .btn:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* アイテム一覧 */
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+    padding: 24px;
+}
+
+.item-card {
+    width: 20%;
+    text-align: center;
+    position: relative;
+}
+
+.item-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s, opacity 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.item-image-wrapper:hover .item-image {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.sold-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.item-name {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* タブメニュー */
+.tab-menu {
+    display: flex;
+    gap: 24px;
+    padding: 0 24px;
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+}
+
+.tab-menu li {
+    display: inline-block;
+}
+
+.tab-link {
+    display: inline-block;
+    padding: 12px 0;
+    font-weight: bold;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-link.active {
+    color: #e60012;
+    border-color: #e60012;
+}
+
+/* アイテムリストコンテナ */
+#item-list-container {
+    padding: 16px 24px;
+}

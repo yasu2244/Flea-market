@@ -15,20 +15,20 @@
     text-align: center;
 }
 
-/* プロフィール画像とボタンのコンテナ */
-.profile-image-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
 /* タイトル */
 .profile-container h2 {
     margin-bottom: 35px;
     font-size: 24px;
     color: #333;
     text-align: center;
+}
+
+/* プロフィール画像とボタンのコンテナ */
+.profile-image-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 /* プロフィール画像の枠（未選択時の背景色を設定） */
