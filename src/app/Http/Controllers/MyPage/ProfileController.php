@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MyPage;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Profile;
 use App\Http\Requests\AddressRequest;
@@ -17,7 +18,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profile = $user->profile ?? new Profile(); // プロフィールがなければ新規作成
 
-        return view('profile.create', compact('profile'));
+        return view('mypage.profile.create', compact('profile'));
     }
 
     public function store(AddressRequest $addressRequest, ProfileRequest $profileRequest)
@@ -41,17 +42,7 @@ class ProfileController extends Controller
         // profile_completed を true に更新
         $user->update(['profile_completed' => true]);
 
-        return redirect('/profile')->with('status', 'プロフィールが作成されました');
-    }
-
-
-    // プロフィール閲覧ページ
-    public function show()
-    {
-        $user = Auth::user();
-        $profile = $user->profile;
-
-        return view('profile.show', compact('profile'));
+        return redirect('/')->with('status', 'プロフィールが作成されました');
     }
 
     // プロフィール編集ページを表示
@@ -60,31 +51,43 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profile = $user->profile;
 
-        return view('profile.edit', compact('profile'));
+        return view('mypage.profile.edit', compact('profile'));
     }
 
     // プロフィール情報を更新
     public function update(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {
-        $user = Auth::user();
-        $profile = $user->profile;
 
-        // 名前・住所関連の更新
-        $profile->fill($addressRequest->validated());
+        \Log::info('All request data:',       $addressRequest->all());
+        \Log::info('All files via ProfileRequest:', $profileRequest->allFiles());
+        \Log::info('hasFile(profile_image):', [$profileRequest->hasFile('profile_image')]);
 
-        // プロフィール画像の更新
+
+        $profile = Auth::user()->profile;
+
+        // ① 名前/郵便番号/住所/建物 のみをまず取得
+        $data = $addressRequest->validated();
+
+        // ② 画像があれば storage に保存してパスを $data に上書き追加
         if ($profileRequest->hasFile('profile_image')) {
+            // 既存ファイルを消す
             if ($profile->profile_image) {
                 Storage::disk('public')->delete($profile->profile_image);
             }
-            $path = $profileRequest->file('profile_image')->store('profile_images', 'public');
-            $profile->profile_image = $path;
+            // storage/app/public/profile_images に保存
+            $data['profile_image'] = $profileRequest
+                ->file('profile_image')
+                ->store('profile_images', 'public');
         }
 
-        $profile->save();
+        // ③ 一括更新
+        $profile->update($data);
 
-        return redirect('/profile')->with('status', 'プロフィールが更新されました');
+        return redirect()
+            ->route('mypage.profile.edit')
+            ->with('status','プロフィールを更新しました');
     }
+
 
     public function editAddress()
     {

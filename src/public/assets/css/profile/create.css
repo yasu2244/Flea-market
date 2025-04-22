@@ -1,4 +1,4 @@
-/* プロフィール設定フォーム全体のスタイル */
+/* フォーム全体 */
 .profile-container {
     max-width: 550px;
     margin: 50px auto;
@@ -31,7 +31,7 @@
     margin-bottom: 20px;
 }
 
-/* プロフィール画像の枠（未選択時の背景色を設定） */
+/* プロフィール画像の枠 */
 .profile-image-wrapper {
     width: 100px;
     height: 100px;

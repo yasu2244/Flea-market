@@ -2,47 +2,53 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Fortify;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\MyPage\MyPageController;
+use App\Http\Controllers\MyPage\ProfileController;
 
-Fortify::loginView(fn () => view('auth.login'));
-Fortify::registerView(fn () => view('auth.register'));
+// 認証画面
+Fortify::loginView(fn() => view('auth.login'));
+Fortify::registerView(fn() => view('auth.register'));
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+
+// 公開ページ（認証不要）
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/switch-tab', [ItemController::class, 'switchTab'])->name('items.switchTab');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
 
-//　商品購入
-Route::middleware(['auth'])->group(function () {
-    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
-    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
-    Route::get('/purchase/{item}/address/edit', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
-    Route::post('/purchase/{item}/address/update', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+// 認証済みユーザー向け
+Route::middleware('auth')->group(function () {
 
-});
+    // ——— いいね機能 ———
+    Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->name('items.toggleLike');
 
-//いいね機能
-Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->middleware('auth');
+    // ——— 購入フロー ———
+    Route::prefix('purchase/{item}')->name('purchase.')->group(function () {
+        Route::get('/',[PurchaseController::class, 'show'])->name('show');
+        Route::post('/',[PurchaseController::class, 'store'])->name('store');
+        Route::get('address/edit',[PurchaseController::class, 'editAddress'])->name('address.edit');
+        Route::post('address/update',[PurchaseController::class, 'updateAddress'])->name('address.update');
+    });
 
-Route::middleware(['auth'])->group(function () {
+    // ——— マイページ & プロフィール ———
+    Route::prefix('mypage')->name('mypage.')->group(function () {
 
-    // プロフィールの初回設定（初回ログイン時）
-    Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
-    Route::post('/profile/store', [ProfileController::class, 'store'])->name('profile.store');
+        // マイページ本体
+        Route::get('/', [MyPageController::class, 'index'])->name('index');
+        Route::get('switch-tab', [MyPageController::class, 'switchTab'])->name('switchTab');
 
-    // プロフィールの閲覧
-    Route::get('/mypage', [MyPageController::class, 'index'])->name('mypage.index');
-    // タブ切り替え用 AJAX
-    Route::get('/mypage/switch-tab', [MyPageController::class, 'switchTab'])->name('mypage.switchTab');
-    // プロフィールの編集
-    Route::get('mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
-
+        // プロフィール作成／編集
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::get('create', [ProfileController::class, 'create'])->name('create');
+            Route::post('',      [ProfileController::class, 'store'])->name('store');
+            Route::get('',    [ProfileController::class, 'edit'])->name('edit');
+            Route::put('',       [ProfileController::class, 'update'])->name('update');
+        });
+    });
 });

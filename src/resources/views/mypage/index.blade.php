@@ -7,25 +7,41 @@
 @section('content')
 <div class="mypage-header">
     <div class="profile-image-container">
-      <div class="profile-image-wrapper">
-        @if($user->profile && $user->profile->profile_image)
-          <img
-            src="{{ asset($user->profile->profile_image) }}"
-            alt="プロフィール画像"
-            class="profile-image"
-          >
+        @php
+        // 画像パスを取得
+        $imgPath = optional($user->profile)->profile_image;
+    @endphp
+
+    <div class="profile-image-wrapper">
+        @if($imgPath)
+            @if(\Illuminate\Support\Str::startsWith($imgPath, 'assets/'))
+                {{-- シーダー等で入れた assets 内のテスト画像 --}}
+                <img
+                src="{{ asset($imgPath) }}"
+                alt="プロフィール画像"
+                class="profile-image"
+                >
+            @else
+                {{-- storage/app/public 以下に保存された画像 --}}
+                <img
+                src="{{ asset('storage/' . $imgPath) }}"
+                alt="プロフィール画像"
+                class="profile-image"
+                >
+            @endif
         @else
-          <div class="profile-avatar-placeholder"></div>
+        <div class="profile-avatar-placeholder"></div>
         @endif
-      </div>
-      <div class="profile-name">
-        {{ $user->profile && $user->profile->name
+    </div>
+
+    <div class="profile-name">
+        {{ optional($user->profile)->name
             ? $user->profile->name
             : $user->name
         }}
-      </div>
+    </div>
 
-      <a href="{{ route('profile.edit') }}" class="profile-edit-btn">
+      <a href="{{ route('mypage.profile.edit') }}" class="profile-edit-btn">
         プロフィール編集
       </a>
     </div>

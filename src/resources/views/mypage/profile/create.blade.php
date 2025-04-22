@@ -19,7 +19,7 @@
     </div>
 
     {{-- プロフィール情報フォーム --}}
-    <form method="POST" action="{{ route('profile.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('mypage.profile.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
