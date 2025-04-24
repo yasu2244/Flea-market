@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="container">
     {{-- 左：商品画像 --}}
     <div class="left-column">
@@ -46,7 +52,6 @@
             onclick="alert('購入手続きを利用するにはログインが必要です');">購入手続きへ</a>
         @endauth
 
-
         {{-- 商品説明 --}}
         <h3 class="section-title">商品説明</h3>
         <p>{!! nl2br(e($item->description)) !!}</p>
@@ -65,12 +70,20 @@
         @forelse($item->comments as $comment)
             <div class="comment-box">
                 {{-- プロフィール画像 --}}
-                @if ($comment->user && $comment->user->profile && $comment->user->profile->profile_image)
-                    <img src="{{ asset($comment->user->profile->profile_image) }}" alt="user">
+                @php
+                    $profile = $comment->user?->profile;
+                    $imgPath = $profile?->profile_image;
+                @endphp
+
+                @if($imgPath)
+                    @if(\Illuminate\Support\Str::startsWith($imgPath, 'assets/'))
+                        <img src="{{ asset($imgPath) }}" alt="user">
+                    @else
+                        <img src="{{ asset('storage/' . $imgPath) }}" alt="user">
+                    @endif
                 @else
                     <div class="comment-avatar-placeholder"></div>
                 @endif
-
 
                 <div>
                     {{-- プロフィール名 --}}

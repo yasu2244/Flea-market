@@ -15,7 +15,7 @@
     <div class="profile-image-wrapper">
         @if($imgPath)
             @if(\Illuminate\Support\Str::startsWith($imgPath, 'assets/'))
-                {{-- シーダー等で入れた assets 内のテスト画像 --}}
+                {{-- シーダーで入れた assets 内のテスト画像 --}}
                 <img
                 src="{{ asset($imgPath) }}"
                 alt="プロフィール画像"

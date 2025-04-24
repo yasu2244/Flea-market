@@ -8,7 +8,7 @@ class CommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check(); // ログインユーザーのみ許可
+        return true;
     }
 
     public function rules(): array

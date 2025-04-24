@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
-use App\Models\Product;
+use App\Http\Requests\CommentRequest;
+use App\Models\Item;
 use App\Models\Comment;
 
 class CommentController extends Controller

@@ -34,7 +34,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         // 認証ページの設定
-        Fortify::loginView(fn () => view('auth.login'));
+        Fortify::loginView(function (Request $request) {
+            return view('auth.login');
+        });
+
         Fortify::registerView(fn () => view('auth.register'));
 
         // 登録後のリダイレクト先をプロフィール設定画面へ

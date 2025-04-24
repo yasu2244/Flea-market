@@ -57,12 +57,6 @@ class ProfileController extends Controller
     // プロフィール情報を更新
     public function update(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {
-
-        \Log::info('All request data:',       $addressRequest->all());
-        \Log::info('All files via ProfileRequest:', $profileRequest->allFiles());
-        \Log::info('hasFile(profile_image):', [$profileRequest->hasFile('profile_image')]);
-
-
         $profile = Auth::user()->profile;
 
         // ① 名前/郵便番号/住所/建物 のみをまず取得
@@ -80,7 +74,6 @@ class ProfileController extends Controller
                 ->store('profile_images', 'public');
         }
 
-        // ③ 一括更新
         $profile->update($data);
 
         return redirect()

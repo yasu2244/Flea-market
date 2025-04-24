@@ -16,7 +16,6 @@ Fortify::registerView(fn() => view('auth.register'));
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
-// 公開ページ（認証不要）
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/switch-tab', [ItemController::class, 'switchTab'])->name('items.switchTab');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
