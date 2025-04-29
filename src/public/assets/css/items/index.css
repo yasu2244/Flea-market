@@ -13,15 +13,22 @@
 }
 
 .item-image-wrapper {
+    width: 260px;
+    height: 260px;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
 }
 
+.item-image-wrapper img,
 .item-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.item-image {
     transition: 0.3s;
     border: 1px solid #ddd;
     border-radius: 8px;

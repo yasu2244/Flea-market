@@ -1,29 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const display = document.getElementById('customSelectDisplay');
-    const options = document.getElementById('customSelectOptions');
-    const hiddenInput = document.getElementById('payment_method_hidden');
     const summary = document.getElementById('summary-method');
 
-    display.addEventListener('click', () => {
-        display.style.display = 'none';
-        options.style.display = 'block';
-    });
+    document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+        const display     = wrapper.querySelector('.custom-select-display');
+        const options     = wrapper.querySelector('.custom-select-options');
+        const hiddenInput = wrapper.querySelector('input[type="hidden"]');
 
-    options.querySelectorAll('li').forEach(option => {
-        option.addEventListener('click', () => {
-            const value = option.dataset.value;
+        display.addEventListener('click', () => {
+            // 高さはそのまま、透明に
+            display.style.visibility = 'hidden';
+            options.style.display = 'block';
+        });
 
-            hiddenInput.value = value;
-            display.textContent = value;
-            if (summary) summary.textContent = value;
+        options.querySelectorAll('li').forEach(option => {
+            option.addEventListener('click', () => {
+                // 既存選択をクリアして selected クラスを追加
+                options.querySelectorAll('li').forEach(li => {
+                    li.classList.remove('selected');
+                });
+                // クリックした項目に 'selected' を付与
+                option.classList.add('selected');
 
-            // 選択スタイル
-            options.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
-            option.classList.add('selected');
+                // 選んだテキストを表示する
+                display.textContent = option.textContent;
+                // hidden には id (数値) を保存
+                hiddenInput.value = option.dataset.value;
+                // 購入ページのサマリーにも反映（存在チェック）
+                if (summary) summary.textContent = option.textContent;
 
-            // 元に戻す
-            options.style.display = 'none';
-            display.style.display = 'block';
+                // メニューを閉じて display を戻す
+                options.style.display    = 'none';
+                display.style.visibility = 'visible';
+            });
         });
     });
 });
+
+

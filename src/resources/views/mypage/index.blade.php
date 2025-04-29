@@ -47,7 +47,6 @@
     </div>
   </div>
 
-
 <ul class="tab-menu">
   <li>
     <a href="#" class="tab-link {{ $tab === 'listed' ? 'active' : '' }}" data-tab="listed">

@@ -8,16 +8,29 @@
 <div class="purchase-container">
     {{-- 左側 --}}
     <div class="item-section">
-        {{-- 上段：画像＋商品情報 --}}
-        <div class="item-top">
-            <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}" class="item-image">
-            <div class="item-details">
-                <h2>{{ $item->name }}</h2>
-                <p class="price">
-                    <span class="yen">¥</span>{{ number_format($item->price) }}
-                </p>
-            </div>
-        </div>
+        @php
+        use Illuminate\Support\Str;
+
+        // 画像パスを取得
+        $path = $item->image_path;
+        // Seeder 画像か storage 画像かで URL を切り分け
+        $url  = Str::startsWith($path, 'assets/')
+                ? asset($path)
+                : asset('storage/' . $path);
+      @endphp
+
+      {{-- 上段：画像＋商品情報 --}}
+      <div class="item-top">
+          <img src="{{ $url }}"
+               alt="{{ $item->name }}"
+               class="item-image">
+          <div class="item-details">
+              <h2>{{ $item->name }}</h2>
+              <p class="price">
+                  <span class="yen">¥</span>{{ number_format($item->price) }}
+              </p>
+          </div>
+      </div>
 
         {{-- 中段：支払い方法 --}}
         <div class="payment-section">
@@ -33,7 +46,6 @@
                 <input type="hidden" name="payment_method" id="payment_method_hidden">
             </div>
         </div>
-
 
         {{-- 下段：配送先 --}}
         <div class="shipping-section">
@@ -58,8 +70,6 @@
     <div class="summary-box">
         <form method="POST" action="{{ route('purchase.store', $item->id) }}">
             @csrf
-
-            {{-- テーブル風のボックスで商品代金・支払い方法をまとめて囲う --}}
             <div class="summary-table">
                 <div class="summary-row">
                     <span>商品代金</span>
@@ -71,12 +81,10 @@
                 </div>
             </div>
 
-            {{-- hidden送信 --}}
             <input type="hidden" id="payment_method_hidden" name="payment_method">
             <input type="hidden" name="shipping_address"
                 value="{{ old('shipping_address', $user->profile->postal_code . ' ' . $user->profile->address . ' ' . $user->profile->building) }}">
 
-            {{-- 購入ボタン --}}
             <button type="submit" class="purchase-button">購入する</button>
         </form>
     </div>

@@ -32,7 +32,7 @@
 .item-image {
     width: 150px;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
     border: 1px solid #000;
     border-radius: 8px;
     margin: 0 20px 15px 0;
@@ -60,21 +60,24 @@
     font-size: 20px;
 }
 
-/* 支払い方法 */
+/* 購入ページ：支払い方法ラベル */
 .payment-label {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 12px;
     padding-left: 2px;
     color: #333;
-}
+  }
 
-.custom-select-wrapper {
+  /* セレクトボックス*/
+  .custom-select-wrapper {
+    position: relative;
     width: 50%;
-    font-family: inherit;
-}
+    margin: 20px 30px 16px;
+  }
 
-.custom-select-display {
+  /* 表示部 */
+  .custom-select-display {
     background-color: #fff;
     color: #000;
     padding: 12px 16px;
@@ -82,10 +85,9 @@
     border: 1px solid #ccc;
     cursor: pointer;
     position: relative;
-    margin:20px 30px;
-}
+  }
 
-.custom-select-display::after {
+  .custom-select-display::after {
     content: '';
     position: absolute;
     right: 12px;
@@ -94,34 +96,54 @@
     border: 6px solid transparent;
     border-top-color: #000;
     pointer-events: none;
-}
+  }
 
-.custom-select-options {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    background-color: #666;
-    color: white;
-    border-radius: 6px;
+  /* ドロップダウンリスト */
+  .custom-select-options {
     display: none;
-    position: static;
-}
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 240px;
+    overflow-y: auto;
+    background-color: #666;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    list-style: none;
+    padding: 4px;
+    margin: 0;
+  }
 
-.custom-select-options li {
-    padding: 12px 16px;
+  /* 各オプション */
+  .custom-select-options li {
+    padding: 6px 10px;
+    margin: 2px 0;
+    border-radius: 4px;
     cursor: pointer;
-}
+  }
 
-.custom-select-options li:hover {
-    background-color: #777;
-}
+  /* ホバー時 */
+  .custom-select-options li:hover {
+    background-color: #5599eb;
+  }
 
-.custom-select-options li.selected::before {
+  /* 選択中 */
+  .custom-select-options li.selected {
+    background-color: #5599eb;
+    color: #fff;
+  }
+
+  /* 選択済みマーク（✔）を表示 */
+  .custom-select-options li.selected::before {
     content: '✔ ';
-    color: white;
+    color: #fff;
     margin-right: 8px;
-}
+  }
+
 
 /* 配送先 */
 .section-header {

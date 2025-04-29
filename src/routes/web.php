@@ -24,10 +24,15 @@ Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('
 // 認証済みユーザー向け
 Route::middleware('auth')->group(function () {
 
-    // ——— いいね機能 ———
+    // 出品フォーム表示
+    Route::get('/sell', [ItemController::class, 'create'])->name('sell.create');
+    // 出品処理
+    Route::post('/sell', [ItemController::class, 'store'])->name('sell.store');
+
+    // いいね機能
     Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->name('items.toggleLike');
 
-    // ——— 購入フロー ———
+    // 購入フロー
     Route::prefix('purchase/{item}')->name('purchase.')->group(function () {
         Route::get('/',[PurchaseController::class, 'show'])->name('show');
         Route::post('/',[PurchaseController::class, 'store'])->name('store');
@@ -35,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('address/update',[PurchaseController::class, 'updateAddress'])->name('address.update');
     });
 
-    // ——— マイページ & プロフィール ———
+    // マイページ & プロフィール
     Route::prefix('mypage')->name('mypage.')->group(function () {
 
         // マイページ本体

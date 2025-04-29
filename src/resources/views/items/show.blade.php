@@ -13,8 +13,28 @@
 
 <div class="container">
     {{-- 左：商品画像 --}}
+    @php
+        use Illuminate\Support\Str;
+
+        // 画像パスを取得
+        $path = $item->image_path;
+    @endphp
+
     <div class="left-column">
-        <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
+        @if ($path)
+        @if (Str::startsWith($path, 'assets/'))
+            {{-- シーディングで登録した画像 assets 配下 --}}
+            <img src="{{ asset($path) }}"
+                alt="{{ $item->name }}">
+        @else
+            {{-- storage/app/public 以下に保存された画像 --}}
+            <img src="{{ asset('storage/' . $path) }}"
+                alt="{{ $item->name }}">
+        @endif
+        @else
+        {{-- デフォルト画像など --}}
+        <div class="no-image">画像が登録されていません</div>
+        @endif
     </div>
 
     {{-- 右：商品情報 --}}

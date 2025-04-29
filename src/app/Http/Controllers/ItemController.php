@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Item;
+use App\Models\Category;
+use App\Models\Status;
+use App\Http\Requests\ExhibitionRequest;
 
 class ItemController extends Controller
 {
@@ -57,7 +60,6 @@ class ItemController extends Controller
         ]);
     }
 
-
     public function switchTab(Request $request)
     {
         $tab = $request->query('tab');
@@ -104,5 +106,29 @@ class ItemController extends Controller
         $item = Item::with(['user', 'status', 'categories', 'comments.user'])->findOrFail($id);
 
         return view('items.show', compact('item'));
+    }
+
+    // 出品フォーム
+    public function create()
+    {
+        return view('items.create', [
+            'categories' => Category::all(),
+            'statuses'   => Status::all(),
+        ]);
+    }
+
+    // 出品処理
+    public function store(ExhibitionRequest $request)
+    {
+        $data = $request->validated();
+        $data['user_id'] = Auth::id();
+        $data['image_path'] = $request->file('image')
+                                    ->store('items', 'public');
+        $item = Item::create($data);
+        $item->categories()->attach($data['categories']);
+
+        return redirect()
+            ->route('items.show', $item)
+            ->with('success', '商品を出品しました');
     }
 }
