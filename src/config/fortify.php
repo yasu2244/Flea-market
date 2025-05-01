@@ -75,10 +75,21 @@ return [
     */
 
     'home' => function () {
-        $user = Auth::check() ? Auth::user() : null;
-        return $user && !$user->profile_completed ? '/profile/create' : '/index';
-    },
+        $user = auth()->user();
+        if (!$user) {
+            return '/';
+        }
 
+        if (!$user->hasVerifiedEmail()) {
+            return '/email/verify';
+        }
+
+        if (!$user->profile_completed) {
+            return '/mypage/profile/create';
+        }
+
+        return '/index';
+    },
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +162,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         // Features::twoFactorAuthentication([

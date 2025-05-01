@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemLikeController;
@@ -9,12 +11,34 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 
 // 認証画面
 Fortify::loginView(fn() => view('auth.login'));
 Fortify::registerView(fn() => view('auth.register'));
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+
+// メール認証通知画面（登録後に表示されるページ）
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware(['auth'])->name('verification.notice');
+
+// 認証リンクの再送信（/email/verification に送信されたPOST）
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('status', '認証メールを再送信しました。');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// メールの確認リンクアクセス時の処理
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // email_verified_at が更新
+
+    return auth()->user()->profile_completed
+    ? redirect('/')
+    : redirect('/mypage/profile/create'); // 認証後にリダイレクト先
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/switch-tab', [ItemController::class, 'switchTab'])->name('items.switchTab');

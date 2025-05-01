@@ -1,0 +1,50 @@
+.verify-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.verify-container h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.verify-container p {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* 「認証はこちらから」ボタン */
+.verify-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #D9D9D9;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+/* 「認証メールを再送する」リンクボタン */
+.resend-link {
+    background: none;
+    border: none;
+    color: #0073cc;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.flash-message {
+    background-color: #f0f8ff;
+    border-left: 5px solid #0073cc;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}

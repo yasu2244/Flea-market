@@ -77,7 +77,7 @@ class ProfileController extends Controller
         $profile->update($data);
 
         return redirect()
-            ->route('mypage.profile.edit')
+            ->route('mypage.index')
             ->with('status','プロフィールを更新しました');
     }
 
