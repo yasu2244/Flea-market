@@ -8,19 +8,19 @@
 <div class="profile-container">
     <h2>プロフィール設定</h2>
 
-    {{-- プロフィール画像と画像選択ボタン --}}
-    <div class="profile-image-container">
-        <div class="profile-image-wrapper">
-            <img id="preview" class="profile-image" src="" alt="プロフィール画像">
-        </div>
-
-        <label for="profile_image" class="image-select-btn">画像を選択する</label>
-        <input type="file" id="profile_image" name="profile_image" accept="image/*" style="display: none;" onchange="previewImage(event)">
-    </div>
-
-    {{-- プロフィール情報フォーム --}}
     <form method="POST" action="{{ route('mypage.profile.store') }}" enctype="multipart/form-data">
         @csrf
+        {{-- プロフィール画像と画像選択ボタン --}}
+        <div class="profile-image-container">
+            <div class="profile-image-wrapper">
+                <img id="preview" class="profile-image" src="" alt="プロフィール画像">
+            </div>
+
+            <label for="profile_image" class="image-select-btn">画像を選択する</label>
+            <input type="file" id="profile_image" name="profile_image" accept="image/*" style="display: none;" onchange="previewImage(event)">
+        </div>
+
+        {{-- プロフィール情報フォーム --}}
 
         <div class="form-group">
             <label for="name">ユーザー名:</label>

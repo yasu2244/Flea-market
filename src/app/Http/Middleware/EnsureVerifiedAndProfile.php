@@ -1,7 +1,5 @@
 <?php
 
-// App\Http\Middleware\EnsureVerifiedAndProfileComplete.php
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -14,19 +12,22 @@ class EnsureVerifiedAndProfile
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return redirect('/login');
-        }
+        if ($user) {
+            // メール未認証なら /email/verify へ
+            if (!$user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
 
-        if (!$user->hasVerifiedEmail()) {
-            return redirect()->route('verification.notice');
-        }
-
-        if (!$user->profile_completed && !$request->is('mypage/profile/create')) {
-            return redirect('/mypage/profile/create');
+            // プロフィール未作成かつプロフィール作成ページでないならリダイレクト
+            if (
+                !$user->profile_completed &&
+                !$request->is('mypage/profile/create') &&
+                !$request->is('mypage/profile') // POST送信時
+            ) {
+                return redirect('/mypage/profile/create');
+            }
         }
 
         return $next($request);
     }
 }
-
