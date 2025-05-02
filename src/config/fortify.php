@@ -74,22 +74,27 @@ return [
     |
     */
 
-    'home' => function () {
-        $user = auth()->user();
-        if (!$user) {
-            return '/';
-        }
+'home' => function () {
+    $user = auth()->user();
 
-        if (!$user->hasVerifiedEmail()) {
-            return '/email/verify';
-        }
+    // nullチェック
+    if (!$user) {
+        return '/';
+    }
 
-        if (!$user->profile_completed) {
-            return '/mypage/profile/create';
-        }
+    // 未認証ならメール確認画面へ
+    if (!$user->hasVerifiedEmail()) {
+        return route('verification.notice');
+    }
 
-        return '/index';
-    },
+    // プロフィール未登録なら作成画面へ
+    if (!$user->profile_completed) {
+        return '/mypage/profile/create';
+    }
+
+    // すべて完了していればトップページへ
+    return '/';
+},
 
     /*
     |--------------------------------------------------------------------------

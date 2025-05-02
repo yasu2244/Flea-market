@@ -8,7 +8,6 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -17,7 +16,6 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 Fortify::loginView(fn() => view('auth.login'));
 Fortify::registerView(fn() => view('auth.register'));
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 // メール認証通知画面（登録後に表示されるページ）
 Route::get('/email/verify', function () {
@@ -46,7 +44,7 @@ Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
 
 // 認証済みユーザー向け
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified.profile'])->group(function () {
 
     // 出品フォーム表示
     Route::get('/sell', [ItemController::class, 'create'])->name('sell.create');
