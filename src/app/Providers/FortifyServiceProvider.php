@@ -2,13 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\VerifyEmailViewResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use App\Actions\Fortify\CreateNewUser;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -16,6 +18,10 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(10)->by($request->email.$request->ip());
+        });
 
         // 登録後：ログインさせずメール認証画面へ
         $this->app->singleton(RegisterResponse::class, function () {

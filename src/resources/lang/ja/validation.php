@@ -20,6 +20,16 @@ return [
     'mimes'      => ':attribute は jpeg または png の形式でアップロードしてください。',
     'image'      => ':attribute は画像ファイルを選択してください。',
 
+    'custom' => [
+        'payment_method' => [
+            'required' => '支払い方法を選択してください。',
+        ],
+        'shipping_address' => [
+            'required' => '配送先を選択してください。',
+        ],
+    ],
+
+
     'attributes' => [
         'name'         => 'お名前',
         'email'        => 'メールアドレス',

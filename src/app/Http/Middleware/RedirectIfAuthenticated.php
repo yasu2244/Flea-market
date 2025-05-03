@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +20,16 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = Auth::user();
+
+                if (!$user->hasVerifiedEmail()) {
+                    return redirect()->route('verification.notice');
+                }
+
+                if (!$user->profile_completed) {
+                    return redirect('/mypage/profile/create');
+                }
+
                 return redirect('/');
             }
         }

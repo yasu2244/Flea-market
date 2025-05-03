@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+    <div class="alert-message">
+        {{ session('status') }}
+    </div>
+@endif
+
+
 <ul class="tab-menu">
     <li>
         <a href="#" class="tab-link {{ ($tab ?? 'recommend') === 'recommend' ? 'active' : '' }}" data-tab="recommend">

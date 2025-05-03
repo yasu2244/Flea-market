@@ -55,11 +55,13 @@ Route::middleware(['auth', 'verified.profile'])->group(function () {
     Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->name('items.toggleLike');
 
     // 購入フロー
-    Route::prefix('purchase/{item}')->name('purchase.')->group(function () {
-        Route::get('/',[PurchaseController::class, 'show'])->name('show');
-        Route::post('/',[PurchaseController::class, 'store'])->name('store');
-        Route::get('address/edit',[PurchaseController::class, 'editAddress'])->name('address.edit');
-        Route::post('address/update',[PurchaseController::class, 'updateAddress'])->name('address.update');
+    Route::prefix('purchase')->name('purchase.')->group(function () {
+        Route::get('/{item}', [PurchaseController::class, 'show'])->name('show');
+        Route::post('/{item}', [PurchaseController::class, 'store'])->name('store');
+
+        // 住所変更
+        Route::get('/address/{item}', [PurchaseController::class, 'editAddress'])->name('address.edit');
+        Route::post('/address/{item}', [PurchaseController::class, 'updateAddress'])->name('address.update');
     });
 
     // マイページ & プロフィール
@@ -78,3 +80,10 @@ Route::middleware(['auth', 'verified.profile'])->group(function () {
         });
     });
 });
+
+// 決済結果
+Route::get('/success', [PurchaseController::class, 'handleSuccess'])->name('purchase.success');
+Route::get('/cancel', function () {
+    return redirect()->back();
+})->name('purchase.cancel');
+

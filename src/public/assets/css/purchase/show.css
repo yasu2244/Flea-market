@@ -219,3 +219,10 @@
 .purchase-button:hover {
     background-color: #e64747;
 }
+
+/* バリデーションエラー表示 */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin: 6px 30px 12px;
+}

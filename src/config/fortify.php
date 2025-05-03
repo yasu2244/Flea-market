@@ -74,27 +74,7 @@ return [
     |
     */
 
-'home' => function () {
-    $user = auth()->user();
-
-    // nullチェック
-    if (!$user) {
-        return '/';
-    }
-
-    // 未認証ならメール確認画面へ
-    if (!$user->hasVerifiedEmail()) {
-        return route('verification.notice');
-    }
-
-    // プロフィール未登録なら作成画面へ
-    if (!$user->profile_completed) {
-        return '/mypage/profile/create';
-    }
-
-    // すべて完了していればトップページへ
-    return '/';
-},
+    'home' => '/',
 
     /*
     |--------------------------------------------------------------------------
