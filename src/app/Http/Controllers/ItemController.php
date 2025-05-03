@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\Status;
@@ -11,119 +12,93 @@ use App\Http\Requests\ExhibitionRequest;
 
 class ItemController extends Controller
 {
+    /**
+     * 商品一覧表示（タブ切替・検索対応）
+     */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $keyword = $request->keyword;
-
-        // 自分の商品を除く「おすすめ商品」
-        $recommendItems = Item::with('status')
-            ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
-            ->when($keyword, fn($q) => $q->where('name', 'like', '%' . $keyword . '%'))
-            ->latest()
-            ->get();
-
-        // いいね済み商品の ID 一覧
-        $likedItemIds = $user
-            ? \DB::table('item_likes')->where('user_id', $user->id)->pluck('item_id')->toArray()
-            : [];
-
-        // マイリスト商品に対しても検索
-        $mylistItems = Item::whereIn('id', $likedItemIds)
-            ->when($keyword, fn($q) => $q->where('name', 'like', '%' . $keyword . '%'))
-            ->latest()
-            ->get();
-
-        // 検索結果がマイリストにしか存在しない場合
-        if ($recommendItems->isEmpty() && $mylistItems->isNotEmpty()) {
-            return view('items.index', [
-                'items' => $mylistItems,
-                'tab' => 'mylist',
-                'keyword' => $keyword,
-            ]);
-        }
-
-        // 検索結果がマイリストにもおすすめにもない場合
-        if ($recommendItems->isEmpty() && $mylistItems->isEmpty()) {
-            return view('items.index', [
-                'items' => collect([]),
-                'tab' => 'recommend',
-                'keyword' => $keyword,
-            ]);
-        }
-
-        // 通常（おすすめ商品がある）
-        return view('items.index', [
-            'items' => $recommendItems,
-            'tab' => 'recommend',
-            'keyword' => $keyword,
-        ]);
-    }
-
-    public function switchTab(Request $request)
-    {
-        $tab = $request->query('tab');
+        $user    = Auth::user();
+        $tab     = $request->query('tab');
         $keyword = $request->query('keyword');
-        $user = Auth::user();
 
-        if ($tab === 'mylist') {
-            if (!$user) {
-                return view('items.partials.item_list', [
-                    'items' => collect([]),
-                    'tab' => 'mylist',
-                ]);
-            }
-
-            $likedItemIds = \DB::table('item_likes')
+        if ($tab === 'mylist' && $user) {
+            // マイリスト（いいね）
+            $likedIds = DB::table('item_likes')
                 ->where('user_id', $user->id)
                 ->pluck('item_id');
-
-            $items = Item::whereIn('id', $likedItemIds)
+            $items = Item::whereIn('id', $likedIds)
                 ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
-                ->latest()->get();
-
-            return view('items.partials.item_list', [
-                'items' => $items,
-                'tab' => 'mylist',
-            ]);
+                ->latest()
+                ->get();
+        } else {
+            // おすすめ or 全商品
+            $items = Item::with('status')
+                ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
+                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                ->latest()
+                ->get();
         }
 
-        // おすすめ
-        $query = Item::query()
-            ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
-            ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"));
-
-        $items = $query->latest()->get();
-
-        return view('items.partials.item_list', [
-            'items' => $items,
-            'tab' => 'recommend',
-        ]);
+        return view('items.index', compact('items', 'tab', 'keyword'));
     }
 
+    /**
+     * 部分アイテムリスト取得（Ajax用）
+     */
+    public function switchTab(Request $request)
+    {
+        $tab     = $request->query('tab');
+        $keyword = $request->query('keyword');
+        $user    = Auth::user();
+
+        if ($tab === 'mylist' && $user) {
+            $likedIds = DB::table('item_likes')
+                ->where('user_id', $user->id)
+                ->pluck('item_id');
+            $items = Item::whereIn('id', $likedIds)
+                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                ->latest()
+                ->get();
+        } else {
+            $items = Item::query()
+                ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
+                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                ->latest()
+                ->get();
+        }
+
+        return view('items.partials.item_list', compact('items', 'tab', 'keyword'));
+    }
+
+    /**
+     * 詳細表示
+     */
     public function show($id)
     {
-        $item = Item::with(['user', 'status', 'categories', 'comments.user'])->findOrFail($id);
-
+        $item = Item::with(['user', 'status', 'categories', 'comments.user'])
+            ->findOrFail($id);
         return view('items.show', compact('item'));
     }
 
-    // 出品フォーム
+    /**
+     * 出品フォーム表示
+     */
     public function create()
     {
-        return view('items.create', [
-            'categories' => Category::all(),
-            'statuses'   => Status::all(),
-        ]);
+        $categories = Category::all();
+        $statuses   = Status::all();
+        return view('items.create', compact('categories', 'statuses'));
     }
 
-    // 出品処理
+    /**
+     * 出品処理
+     */
     public function store(ExhibitionRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = Auth::id();
-        $data['image_path'] = $request->file('image')
-                                    ->store('items', 'public');
+        $data['user_id']    = Auth::id();
+        $data['image_path'] = $request->file('image')->store('items', 'public');
+
         $item = Item::create($data);
         $item->categories()->attach($data['categories']);
 

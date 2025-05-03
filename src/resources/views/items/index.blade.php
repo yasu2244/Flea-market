@@ -11,20 +11,26 @@
     </div>
 @endif
 
-
 <ul class="tab-menu">
     <li>
-        <a href="#" class="tab-link {{ ($tab ?? 'recommend') === 'recommend' ? 'active' : '' }}" data-tab="recommend">
+        <a
+          href="{{ route('items.index', ['tab' => 'recommend', 'keyword' => request('keyword')]) }}"
+          class="tab-link {{ ($tab ?? 'recommend') === 'recommend' ? 'active' : '' }}"
+          data-tab="recommend"
+        >
             おすすめ
         </a>
     </li>
     <li>
-        <a href="#" class="tab-link {{ ($tab ?? 'recommend') === 'mylist' ? 'active' : '' }}" data-tab="mylist">
+        <a
+          href="{{ route('items.index', ['tab' => 'mylist',    'keyword' => request('keyword')]) }}"
+          class="tab-link {{ ($tab ?? 'recommend') === 'mylist'    ? 'active' : '' }}"
+          data-tab="mylist"
+        >
             マイリスト
         </a>
     </li>
 </ul>
-
 
     <div id="item-list-container">
         @include('items.partials.item_list', ['items' => $items, 'tab' => $tab ?? 'recommend'])

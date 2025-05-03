@@ -15,6 +15,7 @@ class Purchase extends Model
         'building',
         'price',
         'is_completed',
+        'stripe_session_id',
     ];
 
     // 購入商品のリレーション

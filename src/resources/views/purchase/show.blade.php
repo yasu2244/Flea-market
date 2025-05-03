@@ -36,7 +36,7 @@
                     支払い方法を選択
                 </div>
                 <ul class="custom-select-options" id="customSelectOptions">
-                    <li data-value="コンビニ払い">コンビニ払い</li>
+                    <li data-value="コンビニ支払い">コンビニ払い</li>
                     <li data-value="カード支払い">カード支払い</li>
                 </ul>
             </div>
@@ -84,7 +84,8 @@
             </div>
 
             {{-- 左カラムの選択結果をここで送信 --}}
-            <input type="hidden" id="payment_method_hidden" name="payment_method" value="{{ old('payment_method') }}">
+            <input type="hidden" id="payment_method_hidden" name="payment_method"
+            value="{{ old('payment_method') }}">
 
             <input type="hidden" name="shipping_address"
                 value="{{ old('shipping_address', $user->profile->postal_code . ' ' . $user->profile->address . ' ' . $user->profile->building) }}">

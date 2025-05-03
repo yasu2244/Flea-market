@@ -42,7 +42,8 @@ class ProfileController extends Controller
         // profile_completed を true に更新
         $user->update(['profile_completed' => true]);
 
-        return redirect('/')->with('status', 'プロフィールが作成されました');
+        return redirect()->route('items.index')
+        ->with('status','プロフィールが作成されました');
     }
 
     // プロフィール編集ページを表示
@@ -76,9 +77,8 @@ class ProfileController extends Controller
 
         $profile->update($data);
 
-        return redirect()
-            ->route('items.index')
-            ->with('status','プロフィールを更新しました');
+        return redirect()->route('items.index')
+        ->with('status','プロフィールを更新しました');
     }
 
 

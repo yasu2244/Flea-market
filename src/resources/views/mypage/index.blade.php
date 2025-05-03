@@ -35,10 +35,7 @@
     </div>
 
     <div class="profile-name">
-        {{ optional($user->profile)->name
-            ? $user->profile->name
-            : $user->name
-        }}
+        {{ optional($user->profile)->name ?: $user->name }}
     </div>
 
       <a href="{{ route('mypage.profile.edit') }}" class="profile-edit-btn">
@@ -47,25 +44,25 @@
     </div>
   </div>
 
-<ul class="tab-menu">
-  <li>
-    <a href="#" class="tab-link {{ $tab === 'listed' ? 'active' : '' }}" data-tab="listed">
-      出品した商品
-    </a>
-  </li>
-  <li>
-    <a href="#" class="tab-link {{ $tab === 'purchased' ? 'active' : '' }}" data-tab="purchased">
-      購入した商品
-    </a>
-  </li>
-</ul>
+    <ul class="tab-menu">
+        <li>
+            <a href="#" class="tab-link{{ $tab === 'sell' ? ' active' : '' }}" data-tab="sell">
+            出品した商品
+            </a>
+        </li>
+        <li>
+            <a href="#" class="tab-link{{ $tab === 'buy' ? ' active' : '' }}" data-tab="buy">
+            購入した商品
+        </a>
+        </li>
+    </ul>
 
 <div id="item-list-container">
-  @include('mypage.partials.item_list', [
-    'items' => $tab === 'listed' ? $listedItems : $purchasedItems,
-    'tab'   => $tab
-  ])
-</div>
+    @include('mypage.partials.item_list', [
+      'items' => $items,
+      'tab'   => $tab
+    ])
+  </div>
 @endsection
 
 @section('js')

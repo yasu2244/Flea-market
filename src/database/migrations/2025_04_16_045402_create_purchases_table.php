@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('building');
             $table->unsignedInteger('price');
             $table->boolean('is_completed')->default(false);
+            $table->string('stripe_session_id')->nullable();
             $table->timestamps();
         });
     }
