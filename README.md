@@ -149,7 +149,7 @@ php artisan migrate
 ```
 php artisan db:seed
 ```
-次にメール機能を使用するため.envファイル31行目以降を修正します。
+次にメール機能を使用するため.envファイル31行目以降を修正、追加します。
 ```
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
@@ -159,6 +159,8 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=example@example.com
 MAIL_FROM_NAME="Flea Market App"
+
+FEATURES=emailVerification
 ```
 さらにdocker-compose.ymlにコードを追加します。
 ```
