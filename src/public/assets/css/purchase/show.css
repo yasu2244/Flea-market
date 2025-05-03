@@ -1,3 +1,4 @@
+/* コンテナ */
 .purchase-container {
     display: flex;
     justify-content: center;
@@ -15,6 +16,7 @@
     gap: 24px;
 }
 
+/* 区切り線 */
 .item-top,
 .payment-section,
 .shipping-section {
@@ -22,13 +24,14 @@
     border-bottom: 1px solid #000;
 }
 
-/* 商品画像＋情報 */
+/* 商品上段 */
 .item-top {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
+/* 画像 */
 .item-image {
     width: 150px;
     height: 150px;
@@ -38,16 +41,18 @@
     margin: 0 20px 15px 0;
 }
 
+/* 詳細 */
 .item-details {
     flex: 1;
 }
 
+/* 商品タイトル */
 .item-details h2 {
     font-size: 26px;
-    margin-top: 0;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
 }
 
+/* 価格 */
 .price {
     font-size: 26px;
     font-weight: bold;
@@ -56,28 +61,29 @@
     gap: 6px;
 }
 
+/* 円マーク */
 .price .yen {
     font-size: 20px;
 }
 
-/* 購入ページ：支払い方法ラベル */
+/* 支払ラベル */
 .payment-label {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 12px;
     padding-left: 2px;
     color: #333;
-  }
+}
 
-  /* セレクトボックス*/
-  .custom-select-wrapper {
+/* カスタムセレクト */
+.custom-select-wrapper {
     position: relative;
     width: 50%;
     margin: 20px 30px 16px;
-  }
+}
 
-  /* 表示部 */
-  .custom-select-display {
+/* セレクト表示 */
+.custom-select-display {
     background-color: #fff;
     color: #000;
     padding: 12px 16px;
@@ -85,9 +91,10 @@
     border: 1px solid #ccc;
     cursor: pointer;
     position: relative;
-  }
+}
 
-  .custom-select-display::after {
+/* 矢印 */
+.custom-select-display::after {
     content: '';
     position: absolute;
     right: 12px;
@@ -96,10 +103,10 @@
     border: 6px solid transparent;
     border-top-color: #000;
     pointer-events: none;
-  }
+}
 
-  /* ドロップダウンリスト */
-  .custom-select-options {
+/* オプションリスト */
+.custom-select-options {
     display: none;
     position: absolute;
     top: 0;
@@ -116,36 +123,35 @@
     list-style: none;
     padding: 4px;
     margin: 0;
-  }
+}
 
-  /* 各オプション */
-  .custom-select-options li {
+/* オプション */
+.custom-select-options li {
     padding: 6px 10px;
     margin: 2px 0;
     border-radius: 4px;
     cursor: pointer;
-  }
+}
 
-  /* ホバー時 */
-  .custom-select-options li:hover {
+/* オプションホバー */
+.custom-select-options li:hover {
     background-color: #5599eb;
-  }
+}
 
-  /* 選択中 */
-  .custom-select-options li.selected {
+/* オプション選択 */
+.custom-select-options li.selected {
     background-color: #5599eb;
     color: #fff;
-  }
+}
 
-  /* 選択済みマーク（✔）を表示 */
-  .custom-select-options li.selected::before {
+/* 選択マーク */
+.custom-select-options li.selected::before {
     content: '✔ ';
     color: #fff;
     margin-right: 8px;
-  }
+}
 
-
-/* 配送先 */
+/* 配送ヘッダー */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -153,27 +159,31 @@
     margin-bottom: 8px;
 }
 
+/* 見出し */
 .section-header p {
     font-size: 18px;
     font-weight: bold;
     margin: 0;
 }
 
+/* 変更リンク */
 .change-link {
     font-size: 18px;
     color: #007bff;
     text-decoration: none;
 }
 
+/* リンクホバー */
 .change-link:hover {
     text-decoration: underline;
 }
 
+/* 配送先 */
 .shipping-address {
     margin: 20px 30px;
 }
 
-/* 右カラム　サマリーボックス全体 */
+/* サマリーボックス */
 .summary-box {
     flex: 2;
     width: 300px;
@@ -182,13 +192,14 @@
     gap: 16px;
 }
 
-/* サマリーボックス */
+/* サマリーテーブル */
 .summary-table {
     border: 1px solid #000;
     overflow: hidden;
     margin-bottom: 24px;
 }
 
+/* サマリー行 */
 .summary-row {
     display: flex;
     justify-content: space-evenly;
@@ -216,13 +227,34 @@
     margin-top: 30px;
 }
 
+/* ボタンホバー */
 .purchase-button:hover {
     background-color: #e64747;
 }
 
-/* バリデーションエラー表示 */
+/* エラーメッセージ */
 .error-message {
     color: red;
     font-size: 14px;
     margin: 6px 30px 12px;
+}
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .purchase-container {
+        margin: 40px auto;
+        padding: 20px;
+        gap: 60px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .purchase-container {
+        flex-wrap: wrap;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    .item-section,
+    .summary-box {
+        width: 100%;
+    }
 }

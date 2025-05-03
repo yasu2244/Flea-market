@@ -1,4 +1,4 @@
-/* メッセージ */
+/* アラートメッセージ */
 .alert-message {
     background-color: #d4edda;
     color: #155724;
@@ -9,6 +9,7 @@
     text-align: center;
     font-size: 16px;
 }
+
 /* タブメニュー */
 .tab-menu {
     display: flex;
@@ -19,11 +20,13 @@
     list-style: none;
 }
 
+/* タブメニュー項目 */
 .tab-menu li {
     display: inline-block;
     margin-left: 150px;
 }
 
+/* タブリンク */
 .tab-link {
     display: inline-block;
     padding: 12px 0;
@@ -35,15 +38,18 @@
     margin-left: 10px;
 }
 
+/* アクティブタブ */
 .tab-link.active {
     color: red;
     border-color: red;
 }
 
+/* アイテムリストコンテナ */
 #item-list-container {
     padding: 16px 24px;
 }
 
+/* アイテム一覧 */
 .item-list {
     display: flex;
     flex-wrap: wrap;
@@ -54,12 +60,14 @@
     margin: 0 0 0 120px;
 }
 
+/* アイテムカード */
 .item-card {
     width: 260px;
     text-align: left;
     position: relative;
 }
 
+/* 画像ラッパー */
 .item-image-wrapper {
     width: 260px;
     height: 260px;
@@ -69,25 +77,29 @@
     border-radius: 8px;
 }
 
+/* 画像 */
 .item-image-wrapper img,
 .item-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
+/* 画像装飾 */
 .item-image {
     transition: 0.3s;
     border: 1px solid #ddd;
     border-radius: 8px;
 }
 
+/* 画像ホバー */
 .item-image-wrapper:hover .item-image {
     transform: scale(1.05);
     opacity: 0.9;
 }
 
+/* 売切れラベル */
 .sold-label {
     position: absolute;
     top: 50%;
@@ -103,6 +115,7 @@
     border-radius: 0;
 }
 
+/* アイテム名 */
 .item-name {
     font-size: 16px;
     margin-top: 8px;
@@ -110,3 +123,20 @@
     word-wrap: break-word;
 }
 
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .item-list {
+        margin: 0 0 0 120px;
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .item-list {
+        justify-content: space-between;
+        margin: 0 auto;
+        padding: 16px;
+    }
+    .item-card {
+        width: calc((100% - 48px) / 2);
+    }
+}

@@ -8,6 +8,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
 /* ロゴ */
@@ -20,8 +23,10 @@
 .nav {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
+/* ナビリスト */
 .nav-list {
     list-style: none;
     display: flex;
@@ -30,15 +35,18 @@
     margin: 0;
 }
 
+/* ナビリンク */
 .nav-link {
     text-decoration: none;
     color: white;
 }
 
+/* ナビリンクホバー */
 .nav-link:hover {
     color: #ffcc00;
 }
 
+/* 出品ボタン */
 .nav-link.post-button {
     background-color: #fff;
     color: #000;
@@ -46,18 +54,22 @@
     border-radius: 4px;
     margin-right: 25px;
 }
+
+/* 出品ボタンホバー */
 .nav-link.post-button:hover {
     background-color: #f0f0f0;
     color: #000;
 }
 
-/* 検索機能 */
+/* 検索フォーム */
 .search-form {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
 }
 
+/* 検索入力 */
 .search-form input {
     padding: 10px 15px;
     font-size: 16px;
@@ -65,14 +77,66 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     width: 400px;
+    max-width: 400px;
 }
 
+/* プレースホルダー */
 .search-form input::placeholder {
     font-weight: bold;
     color: #000;
 }
 
+/* 非表示ボタン */
 .hidden-button {
     display: none;
 }
 
+@media screen and (max-width: 1024px) {
+    .header-container {
+        padding: 0 60px;
+    }
+
+    .logo img {
+        max-width: 270px;/
+    }
+
+    .search-form input {
+        width: 270px;
+    }
+
+    .search-form input {
+        font-size: 16px;
+        padding: 0 12px;
+        max-width: 200px;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+
+    .header-container {
+        padding: 0 20px;
+        flex-wrap: nowrap;
+    }
+
+    .logo img {
+        max-width: 200px;
+        margin: 0 6px;
+    }
+
+    .nav-list {
+        gap: 8px;
+        margin: 0 10px;
+    }
+
+    .nav-link.post-button {
+        margin-right: 0;
+    }
+
+    .search-form input {
+        font-size: 16px;
+        padding: 0 12px;
+        max-width: 200px;
+    }
+
+}

@@ -37,6 +37,11 @@ class PurchaseController extends Controller
 
     public function store(PurchaseRequest $request, Item $item)
     {
+         // 古い未完了レコードを削除（24時間以上前のもの）
+        Purchase::where('is_completed', false)
+        ->where('created_at', '<', now()->subHours(24))
+        ->delete();
+
         $user = Auth::user();
 
         $address = session('purchase_address') ?? [
