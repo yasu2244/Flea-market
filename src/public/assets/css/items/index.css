@@ -1,20 +1,69 @@
+/* メッセージ */
+.alert-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+}
+/* タブメニュー */
+.tab-menu {
+    display: flex;
+    gap: 24px;
+    padding: 0 24px;
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+}
+
+.tab-menu li {
+    display: inline-block;
+    margin-left: 150px;
+}
+
+.tab-link {
+    display: inline-block;
+    padding: 12px 0;
+    font-weight: bold;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+    margin-left: 10px;
+}
+
+.tab-link.active {
+    color: red;
+    border-color: red;
+}
+
+#item-list-container {
+    padding: 16px 24px;
+}
+
 .item-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 48px;
     justify-content: flex-start;
     padding: 24px;
+    max-width: 90%;
+    margin: 0 0 0 120px;
 }
 
 .item-card {
-    width:  20%;
-    text-align: center;
+    width: 260px;
+    text-align: left;
     position: relative;
 }
 
 .item-image-wrapper {
     width: 260px;
     height: 260px;
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
@@ -47,58 +96,17 @@
     width: 100%;
     background-color: rgba(255, 0, 0, 0.8);
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 15px;
     padding: 8px 0;
     text-align: center;
     font-weight: bold;
     border-radius: 0;
 }
+
 .item-name {
-    margin-top: 8px;
-    font-size: 1rem;
-    color: #333;
-}
-
-/* タブメニュー */
-.tab-menu {
-    display: flex;
-    gap: 24px;
-    padding: 0 24px;
-    margin-top: 24px;
-    border-bottom: 1px solid #ccc;
-    list-style: none;
-}
-
-.tab-menu li {
-    display: inline-block;
-}
-
-.tab-link {
-    display: inline-block;
-    padding: 12px 0;
-    font-weight: bold;
-    color: #666;
-    text-decoration: none;
-    border-bottom: 3px solid transparent;
-    transition: 0.2s;
-}
-
-.tab-link.active {
-    color: red;
-    border-color: red;
-}
-
-#item-list-container {
-    padding: 16px 24px;
-}
-
-.alert-message {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    text-align: center;
     font-size: 16px;
+    margin-top: 8px;
+    color: #333;
+    word-wrap: break-word;
 }
+

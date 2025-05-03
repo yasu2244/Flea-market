@@ -31,7 +31,7 @@ class ProfileController extends Controller
         // 名前・住所関連のデータを更新
         $profile->fill($addressRequest->validated());
 
-        // プロフィール画像の更新（画像がアップロードされた場合のみ）
+        // プロフィール画像の登録（画像がアップロードされた場合のみ）
         if ($profileRequest->hasFile('profile_image')) {
             $path = $profileRequest->file('profile_image')->store('profile_images', 'public');
             $profile->profile_image = $path;
@@ -77,7 +77,7 @@ class ProfileController extends Controller
         $profile->update($data);
 
         return redirect()
-            ->route('mypage.index')
+            ->route('items.index')
             ->with('status','プロフィールを更新しました');
     }
 

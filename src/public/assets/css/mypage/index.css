@@ -93,24 +93,63 @@
     color: #fff;
 }
 
+/* タブメニュー */
+.tab-menu {
+    display: flex;
+    gap: 24px;
+    padding: 0 24px;
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+}
+
+.tab-menu li {
+    display: inline-block;
+    margin-left: 150px;
+}
+
+.tab-link {
+    display: inline-block;
+    padding: 12px 0;
+    font-weight: bold;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    margin-left: 10px;
+}
+
+.tab-link.active {
+    color: #e60012;
+    border-color: #e60012;
+}
+
+/* アイテムリストコンテナ */
+#item-list-container {
+    padding: 16px 24px;
+}
+
 /* アイテム一覧 */
 .item-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 48px;
     justify-content: flex-start;
     padding: 24px;
+    max-width: 90%;
+    margin: 0 0 0 120px;
 }
 
 .item-card {
-    width: 20%;
-    text-align: center;
+    width: 260px;
+    text-align: left;
     position: relative;
 }
 
 .item-image-wrapper {
     width: 260px;
     height: 260px;
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
@@ -125,7 +164,7 @@
 }
 
 .item-image {
-    transition: transform 0.3s, opacity 0.3s;
+    transition: 0.3s;
     border: 1px solid #ddd;
     border-radius: 8px;
 }
@@ -150,41 +189,8 @@
 }
 
 .item-name {
+    font-size: 16px;
     margin-top: 8px;
-    font-size: 1rem;
     color: #333;
-}
-
-/* タブメニュー */
-.tab-menu {
-    display: flex;
-    gap: 24px;
-    padding: 0 24px;
-    margin-top: 24px;
-    border-bottom: 1px solid #ccc;
-    list-style: none;
-}
-
-.tab-menu li {
-    display: inline-block;
-}
-
-.tab-link {
-    display: inline-block;
-    padding: 12px 0;
-    font-weight: bold;
-    color: #666;
-    text-decoration: none;
-    border-bottom: 3px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.tab-link.active {
-    color: #e60012;
-    border-color: #e60012;
-}
-
-/* アイテムリストコンテナ */
-#item-list-container {
-    padding: 16px 24px;
+    word-wrap: break-word;
 }

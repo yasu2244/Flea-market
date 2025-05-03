@@ -20,7 +20,7 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'], // PEG / PNG のみ許可
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png'], // PEG / PNG のみ許可
         ];
     }
 }

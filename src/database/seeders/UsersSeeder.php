@@ -14,12 +14,14 @@ class UsersSeeder extends Seeder
             'email' => 'test1@example.com',
             'password' => Hash::make('1234test1'),
             'profile_completed' => true,
+            'email_verified_at' => now(),
         ]);
 
         User::create([
             'email' => 'test2@example.com',
             'password' => Hash::make('1234test2'),
             'profile_completed' => true,
+            'email_verified_at' => now(),
         ]);
     }
 }

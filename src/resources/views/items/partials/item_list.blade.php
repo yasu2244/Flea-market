@@ -20,7 +20,9 @@
               @endif
             </div>
           </a>
-          <p class="item-name">{{ $item->name }}</p>
+          <div class="iten-name-wrapper">
+              <p class="item-name">{{ $item->name }}</p>
+          </div>
         </div>
       @endforeach
     @endif

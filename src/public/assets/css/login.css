@@ -1,14 +1,19 @@
-/* メッセージ */
+/* エラーメッセージ */
 .error-container {
     background-color: #ffe6e6;
     border: 1px solid #f5c2c7;
-    color: #842029;
     padding: 12px 16px;
-    margin: 20px 0;
+    margin: 20px auto;
     font-size: 14px;
     border-radius: 6px;
+    text-align: left;
 }
 
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
 /* ログインフォーム */
 .login-container {
     max-width: 550px;
