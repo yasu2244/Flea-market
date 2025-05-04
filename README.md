@@ -162,17 +162,7 @@ MAIL_FROM_NAME="Flea Market App"
 
 FEATURES=emailVerification
 ```
-さらにdocker-compose.ymlにコードを追加します。
-```
-  mailhog:
-    image: mailhog/mailhog
-    container_name: mailhog
-    ports:
-      - "8025:8025"  # Web UI
-      - "1025:1025"  # SMTP
-    networks:
-      - app-net
-```
+
 以上を変更したらhttp://localhost:8025 へアクセスできれば成功です。
 
 次にストレージのシンボリックリンクを作成。画像が正常に表示されます。<br />
