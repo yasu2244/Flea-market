@@ -29,7 +29,7 @@ class ProfileFactory extends Factory
             'postal_code' => $postalCode,
             'address'     => $address,
             'building'    => $building,
-            // Seeder 側でユーザー画像を設定するため、初期値は null としておく
+            // Seeder 側でユーザー画像を設定するため、初期値はnull
             'profile_image' => null,
         ];
     }

@@ -46,15 +46,15 @@
 
     <ul class="tab-menu">
         <li>
-            <a href="#" class="tab-link{{ $tab === 'sell' ? ' active' : '' }}" data-tab="sell">
-            出品した商品
-            </a>
-        </li>
-        <li>
-            <a href="#" class="tab-link{{ $tab === 'buy' ? ' active' : '' }}" data-tab="buy">
-            購入した商品
-        </a>
-        </li>
+            <a href="{{ url('/mypage?tab=sell') }}"
+               class="tab-link {{ $tab === 'sell' ? 'active' : '' }}"
+               data-tab="sell">出品した商品</a>
+          </li>
+          <li>
+            <a href="{{ url('/mypage?tab=buy') }}"
+               class="tab-link {{ $tab === 'buy' ? 'active' : '' }}"
+               data-tab="buy">購入した商品</a>
+          </li>
     </ul>
 
 <div id="item-list-container">

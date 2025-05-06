@@ -52,9 +52,9 @@
                 $liked = Auth::check() ? $item->isLikedBy(Auth::user()) : false;
             @endphp
             <div class="like-button" data-item-id="{{ $item->id }}"
-            data-auth="{{ Auth::check() ? 'true' : 'false' }}">
+                data-auth="{{ Auth::check() ? 'true' : 'false' }}">
                 <i class="{{ $liked ? 'fas fa-star liked' : 'far fa-star' }}"></i>
-                <div class="like-count">{{ $item->likes->count() }}</div>
+                <div class="like-count">{{ $item->likes()->count() }}</div>
             </div>
 
             {{-- コメント数 --}}

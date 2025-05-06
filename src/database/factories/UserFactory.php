@@ -1,44 +1,57 @@
 <?php
-
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
+use App\Models\Profile;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = User::class;
+
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email'             => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'password'          => static::$password ??= Hash::make('password'),
+            'remember_token'    => Str::random(10),
+            // ’name’ は削除！users テーブルには存在しません
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * プロフィールを一緒に作成する state
      */
-    public function unverified(): static
+    public function withProfile(array $overrides = []): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->afterCreating(function (User $user) use ($overrides) {
+            Profile::factory()->create(array_merge([
+                'user_id'     => $user->id,
+                'name'        => $this->faker->name(),
+                'postal_code' => '123-4567',
+                'address'     => '東京都千代田区1-1-1',
+                'building'    => 'ビル101',
+                'profile_image' => null,
+            ], $overrides));
+        });
+    }
+
+    /**
+     * メール認証／プロフィール完了済みにする既存メソッドも調整
+     */
+    public function verifiedWithProfile(array $profile = []): static
+    {
+        return $this->state(fn() => [
+                'email_verified_at' => now(),
+            ])
+            ->withProfile($profile)
+            ->state(fn() => [
+                'profile_completed' => true,
+            ]);
     }
 }

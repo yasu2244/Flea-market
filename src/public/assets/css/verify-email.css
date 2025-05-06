@@ -1,5 +1,5 @@
 .verify-container {
-    max-width: 500px;
+    max-width: 700px;
     margin: 60px auto;
     padding: 20px;
     text-align: center;
@@ -22,19 +22,20 @@
     padding: 10px 20px;
     background-color: #D9D9D9;
     color: #000;
-    border: none;
+    border: 1px solid #000;
     border-radius: 4px;
     text-decoration: none;
     margin: 20px 0;
     cursor: pointer;
+    font-weight: bold;
 }
 
-/* 「認証メールを再送する」リンクボタン */
+/* 再送リンク */
 .resend-link {
     background: none;
     border: none;
     color: #0073cc;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
     font-size: 15px;
 }

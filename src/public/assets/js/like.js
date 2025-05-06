@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const count = this.querySelector('.like-count');
 
         try {
-            const res = await fetch(`/items/${itemId}/toggle-like`, {
+            const res = await fetch(`/item/${itemId}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

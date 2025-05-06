@@ -1,31 +1,31 @@
 <?php
 
 return [
-    'required'   => ':attribute を入力してください。',
-    'email'      => ':attribute は正しいメールアドレス形式で入力してください。',
-    'unique'     => ':attribute はすでに登録されています。',
-    'exists'     => ':attribute が正しく選択されていません。',
-    'numeric'    => ':attribute は数値で入力してください。',
-    'array'      => ':attribute は配列で入力してください。',
+    'required'   => ':attributeを入力してください',
+    'email'      => ':attributeは正しいメールアドレス形式で入力してください',
+    'unique'     => ':attributeはすでに登録されています',
+    'exists'     => ':attributeが正しく選択されていません',
+    'numeric'    => ':attributeは数値で入力してください',
+    'array'      => ':attributeは配列で入力してください',
     'min'        => [
-        'string'  => ':attribute は :min 文字以上で入力してください。',
-        'numeric' => ':attribute は :min 以上で入力してください。',
+        'string'  => ':attributeは:min文字以上で入力してください',
+        'numeric' => ':attributeは:min以上で入力してください',
     ],
     'max'        => [
-        'string'  => ':attribute は :max 文字以内で入力してください。',
-        'numeric' => ':attribute は :max 以下で入力してください。',
+        'string'  => ':attributeは:max文字以内で入力してください',
+        'numeric' => ':attributeは max以下で入力してください',
     ],
-    'confirmed'  => ':attribute が確認用と一致しません。',
-    'regex'      => ':attribute の形式が正しくありません。',
-    'mimes'      => ':attribute は jpeg または png の形式でアップロードしてください。',
-    'image'      => ':attribute は画像ファイルを選択してください。',
+    'confirmed'  => ':attributeと一致しません',
+    'regex'      => ':attributeの形式が正しくありません',
+    'mimes'      => ':attributeはjpegまたはpngの形式でアップロードしてください',
+    'image'      => ':attributeは画像ファイルを選択してください',
 
     'custom' => [
         'payment_method' => [
-            'required' => '支払い方法を選択してください。',
+            'required' => '支払い方法を選択してください',
         ],
         'shipping_address' => [
-            'required' => '配送先を選択してください。',
+            'required' => '配送先を選択してください',
         ],
     ],
 
@@ -38,7 +38,7 @@ return [
         'address'      => '住所',
         'building'     => '建物名',
         'profile_image'=> 'プロフィール画像',
-        'content'      => '商品コメント',
+        'content'      => 'コメント',
         'payment_method'=> '支払い方法',
         'shipping_address'=> '配送先',
         'description'  => '商品説明',

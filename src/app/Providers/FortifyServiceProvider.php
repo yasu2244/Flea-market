@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Requests\LoginRequest;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -23,12 +24,13 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($request->email.$request->ip());
         });
 
-        // 登録後：ログインさせずメール認証画面へ
+        // 登録後：ログイン画面へ
         $this->app->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
                 public function toResponse($request)
                 {
-                    return redirect()->route('verification.notice');
+                    Auth::logout(); // 明示的にログアウトさせる
+                    return redirect()->route('login')->with('status', '登録が完了しました。ログインしてメール認証を行ってください。');
                 }
             };
         });
@@ -43,29 +45,20 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
-        // 認証処理（メール認証未完了ならログイン不可）
+        // 認証処理
         Fortify::authenticateUsing(function (Request $request) {
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
+            // FormRequest をインスタンス化してバリデーション
+            $loginRequest = app(LoginRequest::class);
+            $loginRequest->merge($request->only(['email', 'password']));
+            $validated = $loginRequest->validated();
 
-            if (!Auth::attempt($credentials)) {
+            if (!Auth::attempt($validated)) {
                 throw ValidationException::withMessages([
                     'email' => 'ログイン情報が正しくありません。',
                 ]);
             }
 
-            $user = Auth::user();
-
-            if (!$user->hasVerifiedEmail()) {
-                Auth::logout(); // 認証完了前のログインを防ぐ
-                throw ValidationException::withMessages([
-                    'email' => 'メール認証が完了していません。メールをご確認ください。',
-                ]);
-            }
-
-            return $user;
+            return Auth::user();
         });
     }
 }

@@ -17,8 +17,10 @@ class StatusesSeeder extends Seeder
             ['name' => '状態が悪い'],
         ];
 
+
         foreach ($statuses as $status) {
-            Status::create($status);
+            // 既に同名レコードがあればスキップ、なければ作成
+            Status::firstOrCreate(['name' => $status['name']]);
         }
     }
 }

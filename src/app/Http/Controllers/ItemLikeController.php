@@ -21,7 +21,8 @@ class ItemLikeController extends Controller
         }
 
         return response()->json([
-            'liked' => $liked,
+            'liked'       => $liked,
+            // テストが期待するキー名に合わせる
             'like_count' => $item->likes()->count(),
         ]);
     }

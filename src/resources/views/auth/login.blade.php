@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+    <div class="alert-message">
+        {{ session('status') }}
+    </div>
+@endif
+
 {{-- 429エラー（ログイン試行制限）のみを表示 --}}
 @if ($errors->has('throttle'))
     <div class="error-container">

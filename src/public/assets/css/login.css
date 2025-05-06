@@ -1,3 +1,16 @@
+/* メッセージ */
+.alert-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+}
+
+
 /* エラーメッセージ */
 .error-container {
     background-color: #ffe6e6;

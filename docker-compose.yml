@@ -19,6 +19,11 @@ services:
     container_name: flea_php
     volumes:
       - ./src:/var/www/
+      - /dev/shm:/dev/shm
+    env_file:
+      - .env.dusk.local
+    environment:
+      DUSK_HEADLESS: "true" 
     depends_on:
       - mysql
       - mailhog

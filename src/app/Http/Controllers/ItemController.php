@@ -18,22 +18,28 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user    = Auth::user();
-        $tab     = $request->query('tab');
+        $tab     = $request->query('tab', 'recommend');
         $keyword = $request->query('keyword');
 
-        if ($tab === 'mylist' && $user) {
-            // マイリスト（いいね）
-            $likedIds = DB::table('item_likes')
-                ->where('user_id', $user->id)
-                ->pluck('item_id');
-            $items = Item::whereIn('id', $likedIds)
-                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
-                ->latest()
-                ->get();
+        if ($tab === 'mylist') {
+            if (! $user) {
+                // 未認証なら何も返さない
+                $items = collect();
+            } else {
+                // 認証済みなら自分のいいねアイテムから「自分の出品」を除外
+                $likedIds = DB::table('item_likes')
+                    ->where('user_id', $user->id)
+                    ->pluck('item_id');
+
+                $items = Item::whereIn('id', $likedIds)
+                    ->where('user_id', '<>', $user->id)
+                    ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                    ->latest()
+                    ->get();
+            }
         } else {
-            // おすすめ or 全商品
-            $items = Item::with('status')
-                ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
+            // おすすめタブ（自分の出品は除外）
+            $items = Item::when($user, fn($q) => $q->where('user_id', '<>', $user->id))
                 ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
                 ->latest()
                 ->get();
@@ -42,31 +48,34 @@ class ItemController extends Controller
         return view('items.index', compact('items', 'tab', 'keyword'));
     }
 
-    /**
-     * 部分アイテムリスト取得（Ajax用）
-     */
     public function switchTab(Request $request)
     {
-        $tab     = $request->query('tab');
-        $keyword = $request->query('keyword');
         $user    = Auth::user();
+        $tab     = $request->query('tab', 'recommend');
+        $keyword = $request->query('keyword');
 
-        if ($tab === 'mylist' && $user) {
-            $likedIds = DB::table('item_likes')
-                ->where('user_id', $user->id)
-                ->pluck('item_id');
-            $items = Item::whereIn('id', $likedIds)
-                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
-                ->latest()
-                ->get();
+        if ($tab === 'mylist') {
+            if ($user) {
+                $likedIds = DB::table('item_likes')
+                    ->where('user_id', $user->id)
+                    ->pluck('item_id');
+
+                $items = Item::whereIn('id', $likedIds)
+                             ->where('user_id', '!=', $user->id)
+                             ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                             ->latest()
+                             ->get();
+            } else {
+                $items = collect();
+            }
         } else {
-            $items = Item::query()
-                ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
-                ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
-                ->latest()
-                ->get();
+            $items = Item::when($user, fn($q) => $q->where('user_id', '!=', $user->id))
+                         ->when($keyword, fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                         ->latest()
+                         ->get();
         }
 
+        // 部分ビューを返す
         return view('items.partials.item_list', compact('items', 'tab', 'keyword'));
     }
 

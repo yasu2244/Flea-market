@@ -10,10 +10,17 @@ use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-// Fortify 認証画面
-Fortify::loginView(fn() => view('auth.login'));
+// Fortify
 Fortify::registerView(fn() => view('auth.register'));
+
+// ログインフォーム表示
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.attempt');
 
 // メール認証ルート
 Route::middleware('auth')->group(function () {
@@ -32,10 +39,9 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
         : redirect('/mypage/profile/create');
 })->middleware(['auth','signed'])->name('verification.verify');
 
-// -----------------------------------------------------------------------------
-// 公開ページ（認証不要）
-// -----------------------------------------------------------------------------
-// 商品一覧（トップ画面） ※クエリtab=mylistでマイリスト表示
+/* 公開ページ（認証不要）*/
+
+// 商品一覧（トップ画面）
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 // タブ切替用（部分一覧取得）
 Route::get('/items/switch-tab', [ItemController::class, 'switchTab'])->name('items.switchTab');
@@ -45,15 +51,14 @@ Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 // コメント投稿
 Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
 
-// -----------------------------------------------------------------------------
 // 認証済み ＆ プロフィール完了済みユーザー向け
-// -----------------------------------------------------------------------------
 Route::middleware(['auth','verified.profile'])->group(function () {
     // 商品出品
     Route::get('/sell', [ItemController::class, 'create'])->name('sell.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('sell.store');
-    // いいね
-    Route::post('/items/{item}/toggle-like', [ItemLikeController::class, 'toggle'])->name('items.toggleLike');
+    // いいね／いいね解除
+    Route::post  ('/item/{item}/like', [ItemLikeController::class, 'toggle']);
+    Route::delete('/item/{item}/like', [ItemLikeController::class, 'toggle']);
     // 購入フロー
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
     Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
@@ -69,9 +74,7 @@ Route::middleware(['auth','verified.profile'])->group(function () {
     Route::get('/mypage/switch-tab',   [MyPageController::class, 'switchTab'])->name('mypage.switchTab');
 });
 
-// -----------------------------------------------------------------------------
 // 決済結果ページ（認証不要）
-// -----------------------------------------------------------------------------
 Route::get('/success', [PurchaseController::class, 'handleSuccess'])->name('purchase.success');
 Route::get('/cancel', function () {
     return redirect()->back();
