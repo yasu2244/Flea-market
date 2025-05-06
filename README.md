@@ -1,7 +1,6 @@
 # 模擬案件 フリマアプリ
 
 # coachtechフリマ
-フリーマーケットアプリ
 ![Image](https://github.com/user-attachments/assets/07207c13-41ec-4760-a969-8c2dad37c887)
 
 ## 作成した目的
@@ -93,7 +92,7 @@ git clone git@github.com:yasu2244/Flea-market.git
 ```
 githubアカウントでログインし、リモートリポジトリを作成します。<br />
 変更先のリポジトリの作成が終わったら、ローカルリポジトリから紐付け先を変更します。
-作成したリポジトリから url を取得して、以下のコマンドを実行してください。
+作成したリポジトリからSSHの url を取得して、以下のコマンドを実行してください。
 ```
 git remote set-url origin 作成したリポジトリのurl
 ```
@@ -107,7 +106,12 @@ git commit -m "リモートリポジトリの変更"
 ```
 git push origin main
 ```
-cloneしたFlea-marketの直下ディレクトリに移動してDockerを起動します。
+dockerコンテナを起動する前にテストに使う下記のファイルを必ず作成してください。<br />
+```
+cp .env.dusk.local.example
+```
+cloneしたFlea-marketの直下ディレクトリに移動してDockerを起動します。<br />
+存在しない場合は、起動時にエラーになります。
 ```
 docker-compose up -d --build
 ```
@@ -159,8 +163,6 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=example@example.com
 MAIL_FROM_NAME="Flea Market App"
-
-FEATURES=emailVerification
 ```
 
 以上を変更したらhttp://localhost:8025 へアクセスできれば成功です。
@@ -191,6 +193,25 @@ STRIPE_SECRET=your_stripe_secret_key
 2. 店舗支払い欄のコンビニ決済を有効にする。
 
 以上で使用可能になります。
+
+## テスト方法
+### 概要
+このアプリケーションでは以下のテストを含んでいます。<br />
+・Feature テスト（PHPUnit）<br />
+    src/tests/Feature/ 配下の HTTP リクエストやビジネスロジックを確認するテスト<br />
+・Browser (Dusk) テスト<br />
+    src/tests/Browser/ 配下のブラウザ操作を伴うエンド・ツー・エンドテスト<br />
+### 必要環境
+・PHP >= 8.1<br />
+・Composer<br />
+・Chrome または Chromium<br />
+・ChromeDriver（Dusk を使用する際）<br />
+・MySQL 8.0 (ローカル開発用)<br />
+### 環境ファイル準備
+Dusk テスト用にファイルの作成
+```
+cp .env.dusk.local.example .env.dusk.local
+```
 
 
 
