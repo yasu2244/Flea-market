@@ -21,7 +21,7 @@ services:
       - ./src:/var/www/
       - /dev/shm:/dev/shm
     env_file:
-      - .env.dusk.local
+      - ./src/.env.dusk.local
     environment:
       DUSK_HEADLESS: "true" 
     depends_on:
