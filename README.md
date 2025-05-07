@@ -106,9 +106,10 @@ git commit -m "リモートリポジトリの変更"
 ```
 git push origin main
 ```
-dockerコンテナを起動する前にテストに使う下記のファイルを必ず作成してください。<br />
+dockerコンテナを起動する前にテストに使う下記のファイルを必ずコピーして作成してください。<br />
 ```
-cp .env.dusk.local.example
+cp src/.env.testing.example src/.env.testing
+cp src/.env.dusk.local.example src/.env.dusk.local
 ```
 cloneしたFlea-marketの直下ディレクトリに移動してDockerを起動します。<br />
 存在しない場合は、起動時にエラーになります。
@@ -163,6 +164,8 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=example@example.com
 MAIL_FROM_NAME="Flea Market App"
+
+FEATURES=emailVerification
 ```
 
 以上を変更したらhttp://localhost:8025 へアクセスできれば成功です。
@@ -198,20 +201,107 @@ STRIPE_SECRET=your_stripe_secret_key
 ### 概要
 このアプリケーションでは以下のテストを含んでいます。<br />
 ・Feature テスト（PHPUnit）<br />
-    src/tests/Feature/ 配下の HTTP リクエストやビジネスロジックを確認するテスト<br />
 ・Browser (Dusk) テスト<br />
-    src/tests/Browser/ 配下のブラウザ操作を伴うエンド・ツー・エンドテスト<br />
+
 ### 必要環境
 ・PHP >= 8.1<br />
 ・Composer<br />
 ・Chrome または Chromium<br />
-・ChromeDriver（Dusk を使用する際）<br />
+・ChromeDriver（Dusk を使用する際）cp .env.dusk.local.example
 ・MySQL 8.0 (ローカル開発用)<br />
+
 ### 環境ファイル準備
-Dusk テスト用にファイルの作成
+Dusk テスト用に.env.dusk.local、<br />
+Featureテスト用に.env.testingの2つのファイルが必要なので<br />
+存在していないのなら適宜コピーして作成してください<br />
+※環境構築のdockerコンテナを起動する前に、.env.testinと.env.dusk.localは作成済み<br />
 ```
-cp .env.dusk.local.example .env.dusk.local
+cp src/.env.testing.example src/.env.testing
+cp src/.env.dusk.local.example src/.env.dusk.local
 ```
+docker-compose.ymlの23,24行目のコメントアウトを解除してください。
+```
+env_file:
+  - ./src/.env.dusk.local
+```
+下記のコマンドでテスト用APP_KEYが生成されます。<br />
+.env.testingの「APP_KEY=」に生成されたキーを.env.dusk.localの「APP_KEY=」に貼り付けてください。<br />
+```
+php artisan key:generate --env=testing
+```
+・ テスト用データベースの作成
+```
+docker-compose exec mysql bash
+mysql -u root -p
+```
+パスワードは、docker-compose.yml の MYSQL_ROOT_PASSWORD で指定した password を入力してください。<br />
+下記のコマンドで作成できます。
+```
+CREATE DATABASE IF NOT EXISTS demo_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+データベースの確認<br />
+下記のコマンドを実行すると demo_test が一覧に含まれているはずです。
+```
+SHOW DATABASES;
+exit
+```
+再びphpコンテナで設定キャッシュをクリアしdockerコンテナを停止・削除し、そのあと再起動させる
+```
+php artisan config:clear
+php artisan cache:clear
+docker-compose down
+docker-compose up -d --build
+```
+
+### PHPUnit テスト
+phpコンテナ内で行ってください。<br />
+依存パッケージのインストール（初回のみ）
+```
+composer install
+```
+データベースマイグレーション・シーディング（初回またはテーブル構造が変わったとき）
+```
+php artisan migrate:fresh
+```
+・PHPUnit テストの実行
+ 全テスト
+```
+php artisan test
+```
+Feature テストのみ
+```
+php artisan test --filter=Feature
+```
+特定のテストクラスだけ
+```
+php artisan test --filter=MyListTest
+```
+### Laravel Dusk（ブラウザテスト）
+phpコンテナ内で行ってください。<br />
+Dusk ドライバのインストール（初回のみ）
+```
+composer require --dev laravel/dusk
+php artisan dusk:install
+```
+.env.dusk.local を環境に合わせて編集
+```
+APP_URL=http://nginx
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
+DUSK_HEADLESS=true
+```
+・Dusk テストの実行
+全ブラウザテスト
+```
+php artisan dusk
+```
+特定の Dusk テストだけ
+```
+php artisan dusk --filter=PaymentMethodBrowserTest
+```
+
 
 
 
