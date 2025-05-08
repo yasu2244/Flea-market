@@ -185,7 +185,7 @@ Stripeの実装
 ### 2. APIキーの取得
 1. Stripeダッシュボードで「開発者」→「APIキー」に移動。
 2. 公開可能キー（Publishable key）と シークレットキー（Secret key）を取得。
-3. `.env` ファイルに以下のように設定。
+3. `.env` ファイル下部に以下のように追加してください。
 ```
 STRIPE_KEY=your_stripe_public_key
 STRIPE_SECRET=your_stripe_secret_key
@@ -287,7 +287,7 @@ php artisan dusk:install
 .env.dusk.local を環境に合わせて編集
 ```
 APP_URL=http://nginx
-DB_DATABASE=laravel_db
+DB_DATABASE=demo_test
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 DUSK_HEADLESS=true
