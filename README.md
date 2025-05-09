@@ -141,7 +141,7 @@ phpコンテナにログインします。
 ```
 docker-compose exec php bash
 ```
-composerをインストールします・
+composerをインストールします。
 ```
 composer install
 ```
@@ -203,7 +203,7 @@ STRIPE_SECRET=your_stripe_secret_key
 ### 概要
 このアプリケーションでは以下のテストを含んでいます。<br />
 ・Feature テスト（PHPUnit）<br />
-支払い方法選択機能以外のテスト
+支払い方法選択機能以外のテスト<br />
 ・Browser (Dusk) テスト<br />
 支払い方法選択機能のテスト
 
