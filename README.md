@@ -171,7 +171,11 @@ MAIL_FROM_NAME="Flea Market App"
 FEATURES=emailVerification
 ```
 
-以上を変更したらhttp://localhost:8025 へアクセスできれば成功です。
+以上を変更したらhttp://localhost:8025 へアクセスできれば成功です。<br />
+ブラウザにPermission deniedというエラーが出たら下記のコマンドを試してください。
+```
+sudo chmod -R 777 src/*
+```
 
 次にストレージのシンボリックリンクを作成。画像が正常に表示されます。<br />
 dockerコンテナ内で
