@@ -111,22 +111,9 @@ dockerコンテナを起動する前にテストに使う下記のファイル�
 cp src/.env.testing.example src/.env.testing
 cp src/.env.dusk.local.example src/.env.dusk.local
 ```
-cloneしたFlea-marketの直下ディレクトリに移動してDockerを起動します。<br />
-存在しない場合は、起動時にエラーになります。
+続いて、.env.exampleファイルをコピーして.envファイルを作成します。
 ```
-docker-compose up -d --build
-```
-phpコンテナにログインします。
-```
-docker-compose exec php bash
-```
-composerをインストールします・
-```
-composer install
-```
-データベースに接続するために、.env.exampleファイルをコピーして.envファイルを作成します。
-```
-cp .env.example .env
+cp src/.env.example src/.env
 ```
 作成ができたら.envファイルを以下のように修正します。
 ```
@@ -144,6 +131,21 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 
 ```
+
+cloneしたFlea-marketの直下ディレクトリに移動してDockerを起動します。<br />
+存在しない場合は、起動時にエラーになります。
+```
+docker-compose up -d --build
+```
+phpコンテナにログインします。
+```
+docker-compose exec php bash
+```
+composerをインストールします・
+```
+composer install
+```
+
 phpコンテナ内でアプリケーションの暗号キーの作成、テーブルとダミーデータの作成を行います。
 ```
 php artisan key:generate
@@ -201,7 +203,9 @@ STRIPE_SECRET=your_stripe_secret_key
 ### 概要
 このアプリケーションでは以下のテストを含んでいます。<br />
 ・Feature テスト（PHPUnit）<br />
+支払い方法選択機能以外のテスト
 ・Browser (Dusk) テスト<br />
+支払い方法選択機能のテスト
 
 ### 必要環境
 ・PHP >= 8.1<br />
@@ -213,23 +217,21 @@ STRIPE_SECRET=your_stripe_secret_key
 ### 環境ファイル準備
 Dusk テスト用に.env.dusk.local、<br />
 Featureテスト用に.env.testingの2つのファイルが必要なので<br />
-存在していないのなら適宜コピーして作成してください<br />
+存在していないのなら適宜、下記のコマンドでコピーして作成してください。<br />
 ※環境構築のdockerコンテナを起動する前に、.env.testinと.env.dusk.localは作成済み<br />
 ```
 cp src/.env.testing.example src/.env.testing
 cp src/.env.dusk.local.example src/.env.dusk.local
 ```
-docker-compose.ymlの23,24行目のコメントアウトを解除してください。
+
+環境構築でも作成しましたが、作成していなければphpコンテナ内で下記のコマンドでテスト用APP_KEYが生成してください。<br />
+.envの「APP_KEY=」に生成されたキーを.env.testingと.env.dusk.localの「APP_KEY=」に貼り付けてください。<br />
 ```
-env_file:
-  - ./src/.env.dusk.local
+php artisan key:generate
 ```
-下記のコマンドでテスト用APP_KEYが生成されます。<br />
-.env.testingの「APP_KEY=」に生成されたキーを.env.dusk.localの「APP_KEY=」に貼り付けてください。<br />
-```
-php artisan key:generate --env=testing
-```
+
 ・ テスト用データベースの作成
+phpコンテナから「exit」で抜けてmysqlコンテナ内でテスト用データベースを作成します。
 ```
 docker-compose exec mysql bash
 mysql -u root -p
@@ -239,6 +241,13 @@ mysql -u root -p
 ```
 CREATE DATABASE IF NOT EXISTS demo_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
+権限の付与
+```
+GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
+
+FLUSH PRIVILEGES;
+```
+
 
 データベースの確認<br />
 下記のコマンドを実行すると demo_test が一覧に含まれているはずです。
@@ -246,10 +255,13 @@ CREATE DATABASE IF NOT EXISTS demo_test CHARACTER SET utf8mb4 COLLATE utf8mb4_un
 SHOW DATABASES;
 exit
 ```
-再びphpコンテナで設定キャッシュをクリアしdockerコンテナを停止・削除し、そのあと再起動させる
+再びphpコンテナで設定キャッシュをクリア。
 ```
 php artisan config:clear
 php artisan cache:clear
+```
+コンテナを抜けてdockerコンテナを停止・削除し、そのあと再起動させる
+```
 docker-compose down
 docker-compose up -d --build
 ```
@@ -287,17 +299,17 @@ php artisan dusk:install
 .env.dusk.local を環境に合わせて編集
 ```
 APP_URL=http://nginx
+
 DB_DATABASE=demo_test
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
-DUSK_HEADLESS=true
 ```
 ・Dusk テストの実行
 全ブラウザテスト
 ```
 php artisan dusk
 ```
-特定の Dusk テストだけ
+支払い方法選択機能 Duskテストだけ
 ```
 php artisan dusk --filter=PaymentMethodBrowserTest
 ```
