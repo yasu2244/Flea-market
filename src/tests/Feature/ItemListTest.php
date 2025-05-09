@@ -59,24 +59,38 @@ class ItemListTest extends TestCase
     public function 自分が出品した商品は一覧に表示されない()
     {
         $this->seed(\Database\Seeders\StatusesSeeder::class);
+        $statusId = \App\Models\Status::first()->id;
 
         // 出品ユーザー（認証済み＋プロフィール済み）
         $user = User::factory()->verifiedWithProfile()->create();
-        // 自分が出品した商品
-        $ownItem = Item::factory()->create(['user_id' => $user->id]);
-        // 他ユーザーの商品
-        $otherItems = Item::factory()->count(2)->create();
+
+        // 自分が出品した商品を「OWN_ITEM」という固定名で作成
+        $ownItem = Item::factory()->create([
+            'user_id'   => $user->id,
+            'status_id' => $statusId,
+            'name'      => 'OWN_ITEM',
+        ]);
+
+        // 他ユーザーの商品を「OTHER_ITEM_1」「OTHER_ITEM_2」で作成
+        $otherItems = Item::factory()->count(2)->create([
+            'status_id' => $statusId,
+            'name'      => function () {
+                static $i = 1;
+                return 'OTHER_ITEM_' . $i++;
+            },
+        ]);
 
         // ログインし、一覧ページにアクセス
         $response = $this->actingAs($user)->get('/');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            // OWN_ITEM が表示されない
+            ->assertDontSee('OWN_ITEM');
 
         // 自分の商品名が含まれないこと
         $response->assertDontSee($ownItem->name);
 
-        // 他ユーザーの商品は表示されること
-        foreach ($otherItems as $item) {
-            $response->assertSee($item->name);
-        }
+        // 他ユーザーの商品は必ず見える
+        $response->assertSee('OTHER_ITEM_1')
+                ->assertSee('OTHER_ITEM_2');
     }
 }
