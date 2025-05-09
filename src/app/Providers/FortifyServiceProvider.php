@@ -5,6 +5,7 @@ namespace App\Providers;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\VerifyEmailViewResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\RegisterViewResponse;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;

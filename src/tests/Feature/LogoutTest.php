@@ -5,10 +5,18 @@ namespace Tests\Feature\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class LogoutTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+    }
 
     /**
      * @test

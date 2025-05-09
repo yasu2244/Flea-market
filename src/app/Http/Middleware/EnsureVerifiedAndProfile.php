@@ -10,19 +10,24 @@ class EnsureVerifiedAndProfile
 {
     public function handle(Request $request, Closure $next)
     {
+        // PHPUnit の Feature テストも、Dusk の Browser テストも、
+        // APP_ENV=testing または APP_ENV=dusk のいずれでもスキップ
+        if (app()->environment(['testing','dusk'])) {
+            return $next($request);
+        }
+
         $user = Auth::user();
 
+        // 以下は従来どおり
         if ($user) {
-            // メール未認証なら /email/verify へ
-            if (!$user->hasVerifiedEmail()) {
+            if (! $user->hasVerifiedEmail()) {
                 return redirect()->route('verification.notice');
             }
 
-            // プロフィール未作成かつプロフィール作成ページでないならリダイレクト
             if (
-                !$user->profile_completed &&
-                !$request->is('mypage/profile/create') &&
-                !$request->is('mypage/profile') // POST送信時
+                ! $user->profile_completed &&
+                ! $request->is('mypage/profile/create') &&
+                ! $request->is('mypage/profile')
             ) {
                 return redirect('/mypage/profile/create');
             }

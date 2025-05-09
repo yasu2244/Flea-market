@@ -11,12 +11,16 @@ class SearchTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\StatusesSeeder::class);
+        $this->seed(\Database\Seeders\CategoriesSeeder::class);
+    }
+
     /** @test */
     public function 商品名で部分一致検索ができる()
     {
-        $this->seed(\Database\Seeders\StatusesSeeder::class);
-        $this->seed(\Database\Seeders\CategoriesSeeder::class);
-
         // 部分一致する商品とそうでない商品を作成
         $match   = Item::factory()->create(['name' => 'JavaScriptを楽しく学ぼう']);
         $noMatch = Item::factory()->create(['name' => 'Laravel 入門']);
@@ -31,9 +35,6 @@ class SearchTest extends TestCase
     /** @test */
     public function 検索状態がマイリストでも保持されている()
     {
-        $this->seed(\Database\Seeders\StatusesSeeder::class);
-        $this->seed(\Database\Seeders\CategoriesSeeder::class);
-
         // 認証済み＋プロフィール済みユーザーを用意
         $user = User::factory()->verifiedWithProfile()->create();
 

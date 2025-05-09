@@ -72,15 +72,13 @@ class MyListTest extends TestCase
     /** @test */
     public function 未認証の場合は何も表示されない()
     {
-        $user    = User::factory()->verifiedWithProfile()->create();
-        $ownItem = Item::factory()->create([
-            'user_id' => $user->id,
-            'name'    => 'OWN_ITEM',
-        ]);
-
+        // ログインせずにアクセスする
+        $ownItem   = Item::factory()->create(['name' => 'OWN_ITEM']);
         $otherItem = Item::factory()->create(['name' => 'OTHER_ITEM']);
 
-        $response = $this->actingAs($user)->get('/?tab=mylist');
+        $response = $this->get('/?tab=mylist');
+        // ゲストであることを明示的に確認してもよい
+        $this->assertGuest();
         $response->assertStatus(200)
                  ->assertDontSee('OWN_ITEM')
                  ->assertDontSee('OTHER_ITEM');

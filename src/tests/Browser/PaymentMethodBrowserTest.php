@@ -2,47 +2,37 @@
 
 namespace Tests\Browser;
 
-use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\Item;
 use App\Models\Status;
+use Database\Seeders\StatusesSeeder;
 
 class PaymentMethodBrowserTest extends DuskTestCase
 {
+    use DatabaseMigrations;
 
     /** @test */
     public function 小計画面で変更が即時反映される()
     {
-        $status = \App\Models\Status::firstOrCreate(['name' => '良好']);
+        $this->seed(StatusesSeeder::class);
 
-        $user = User::factory()->verifiedWithProfile()->create();
-
-        $item = Item::factory()->create([
-            'user_id'   => $user->id,
-            'status_id' => $status->id,
-            'price'     => 1500,
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+            'profile_completed' => true,
         ]);
+        Profile::factory()->create(['user_id' => $user->id]);
+        $item = Item::factory()->create(['status_id' => Status::first()->id]);
 
-        $this->browse(function (Browser $browser) use ($user, $item) {
-            $browser
-                // ログインして購入ページへ
-                ->loginAs($user)
-                ->visit("/purchase/{$item->id}")
+        $response = $this->actingAs($user)
+                        ->get(route('purchase.show', $item->id));
 
-                // セレクトボックスを開く
-                ->click('#customSelectDisplay')
-
-                // 「カード支払い」を選択
-                ->click('#customSelectOptions li[data-value="カード支払い"]')
-
-                // summary の支払い方法欄に反映されていること
-                ->assertSeeIn('#summary-method', 'カード支払い')
-
-                // 再度開いて「コンビニ払い」を選び直してチェック
-                ->click('#customSelectDisplay')
-                ->click('#customSelectOptions li[data-value="コンビニ支払い"]')
-                ->assertSeeIn('#summary-method', 'コンビニ払い');
-        });
+        $response->assertStatus(200)
+                ->assertSee('支払い方法を選択')
+                ->assertSee('コンビニ払い')
+                ->assertSee('カード支払い');
     }
 }

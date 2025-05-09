@@ -21,10 +21,27 @@ services:
       - ./src:/var/www/
       - /dev/shm:/dev/shm
     env_file:
-      - ./src/.env.dusk.local
+      - ./src/.env
     environment:
       DUSK_HEADLESS: "true" 
     depends_on:
+      - mysql
+      - mailhog
+    networks:
+      - app-net
+
+  dusk:
+    build: ./docker/php
+    container_name: flea_dusk
+    volumes:
+      - ./src:/var/www/
+      - /dev/shm:/dev/shm
+    env_file:
+      - ./src/.env.dusk.local
+    environment:
+      DUSK_HEADLESS: "true"
+    depends_on:
+      - nginx
       - mysql
       - mailhog
     networks:
@@ -42,6 +59,7 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/init-demo_test.sql:/docker-entrypoint-initdb.d/init-demo_test.sql
     ports:
       - "3306:3306"
     networks:

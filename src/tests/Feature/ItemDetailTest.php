@@ -15,12 +15,17 @@ class ItemDetailTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(\Database\Seeders\StatusesSeeder::class);
+        $this->seed(\Database\Seeders\CategoriesSeeder::class);
+    }
+
     /** @test */
     public function 必要な情報が全て表示される()
     {
-        $this->seed(\Database\Seeders\StatusesSeeder::class);
-        $this->seed(\Database\Seeders\CategoriesSeeder::class);
-
         // DB からマスターを取得
         $status     = Status::where('name', '良好')->firstOrFail();
         // 先頭3件を使う
@@ -62,37 +67,34 @@ class ItemDetailTest extends TestCase
         // 商品詳細ページへアクセスして検証
         $response = $this->get("/item/{$item->id}");
         $response->assertStatus(200)
-                 // 画像・名前・ブランド・価格・説明
-                 ->assertSee($item->image_path)
-                 ->assertSee($item->name)
-                 ->assertSee($item->brand)
-                 ->assertSee(number_format($item->price))
-                 ->assertSee($item->description)
+            // 画像・名前・ブランド・価格・説明
+            ->assertSee($item->image_path)
+            ->assertSee($item->name)
+            ->assertSee($item->brand)
+            ->assertSee(number_format($item->price))
+            ->assertSee($item->description)
 
-                 // いいね数・コメント数
-                 ->assertSee((string) $item->likes_count)
-                 ->assertSee((string) $item->comments_count)
+            // いいね数・コメント数
+            ->assertSee((string) $item->likes_count)
+            ->assertSee((string) $item->comments_count)
 
-                 // カテゴリ名（3つとも）
-                 ->assertSee($categories[0]->name)
-                 ->assertSee($categories[1]->name)
-                 ->assertSee($categories[2]->name)
+            // カテゴリ名（3つ）
+            ->assertSee($categories[0]->name)
+            ->assertSee($categories[1]->name)
+            ->assertSee($categories[2]->name)
 
-                 // 状態名
-                 ->assertSee($status->name)
+            // 状態
+            ->assertSee($status->name)
 
-                 // コメントユーザーのプロフィール画像・名前・コメント内容
-                 ->assertSee('profiles/avatar.jpg')
-                 ->assertSee('テスター')
-                 ->assertSee('素晴らしい商品です');
+            // コメントユーザーのプロフィール画像・名前・コメント内容
+            ->assertSee('profiles/avatar.jpg')
+            ->assertSee('テスター')
+            ->assertSee('素晴らしい商品です');
     }
 
     /** @test */
     public function 複数選択されたカテゴリが表示されているか()
     {
-        $this->seed(\Database\Seeders\StatusesSeeder::class);
-        $this->seed(\Database\Seeders\CategoriesSeeder::class);
-
         // 先頭3件カテゴリを取得
         $categories = Category::all()->take(3);
 

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class PurchaseTest extends TestCase
 {
@@ -16,6 +17,10 @@ class PurchaseTest extends TestCase
     {
         parent::setUp();
 
+        // CSRF ミドルウェアを無効化
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+
+        // 必要なシーダー
         $this->seed(\Database\Seeders\StatusesSeeder::class);
         $this->seed(\Database\Seeders\CategoriesSeeder::class);
     }
@@ -23,23 +28,27 @@ class PurchaseTest extends TestCase
     /** @test */
     public function 「購入する」ボタンを押下すると購入が完了する()
     {
-
-        $this->seed(\Database\Seeders\StatusesSeeder::class);
-
         $user = User::factory()->verifiedWithProfile()->create();
         $item = Item::factory()->create();
 
         $response = $this->actingAs($user)
+            ->withSession([
+                'purchase_address' => [
+                    'postal_code' => '123-4567',
+                    'address'     => '東京都千代田区1-1-1',
+                    'building'    => 'ビル101',
+                ],
+            ])
             ->post("/purchase/{$item->id}", [
                 'payment_method'   => 'card',
-                'shipping_address' => '自宅',
-                'postal_code'      => '123-4567',
-                'address'          => '東京都千代田区1-1-1',
-                'building'         => 'ビル101',
+                // PurchaseRequestのhipping_address バリデーションを通すためのダミー
+                'shipping_address' => 'テスト用ダミー',
             ]);
 
+        // 正常にリダイレクトされること
         $response->assertRedirect();
 
+        // DB にレコードが作成されていること
         $this->assertDatabaseHas('purchases', [
             'user_id' => $user->id,
             'item_id' => $item->id,
@@ -52,16 +61,16 @@ class PurchaseTest extends TestCase
         $user = User::factory()->verifiedWithProfile()->create();
         $item = Item::factory()->create();
 
-        // ① 完了フラグを立てた購入レコードを作成
+        //  完了フラグを立てた購入レコードを作成
         Purchase::factory()
             ->for($user)
             ->for($item)
             ->create(['is_completed' => true]);
 
-        // ② 商品側にも売切フラグを立てる
+        // 商品側にも売切フラグを立てる
         $item->update(['is_sold' => true]);
 
-        // のちに recommend タブ（デフォルト）でも SOLD が出る
+        // recommend タブ（デフォルト）でも SOLD が出る
         $this->actingAs($user)
             ->get('/')
             ->assertStatus(200)

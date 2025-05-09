@@ -10,6 +10,23 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // マイグレ＆シード
+        $this->artisan('migrate:fresh');
+        $this->artisan('db:seed', ['--class' => \Database\Seeders\StatusesSeeder::class]);
+        $this->artisan('db:seed', ['--class' => \Database\Seeders\CategoriesSeeder::class]);
+
+        // ミドルウェアをすべてスキップ（Dusk のブラウザテストでも有効）
+        $this->withoutMiddleware([
+            \App\Http\Middleware\Authenticate::class,
+            \App\Http\Middleware\EnsureVerifiedAndProfile::class,
+            \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        ]);
+    }
+
     /**
      * Dusk 用の環境ファイルを明示
      *

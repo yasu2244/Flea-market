@@ -5,10 +5,19 @@ namespace Tests\Feature\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // CSRF チェックをスキップ
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+    }
 
     /**
      * @test

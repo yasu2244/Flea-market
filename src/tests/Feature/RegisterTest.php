@@ -4,10 +4,18 @@ namespace Tests\Feature\Auth;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+    }
 
     /** @test */
     public function 名前が入力されていない場合、バリデーションメッセージが表示される()
@@ -22,6 +30,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
+        $response->dump();
         $response->assertSessionHasErrors(['name' => 'お名前を入力してください',]);
     }
 

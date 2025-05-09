@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class CommentTest extends TestCase
 {
@@ -15,6 +16,7 @@ class CommentTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->seed(\Database\Seeders\StatusesSeeder::class);
     }
 

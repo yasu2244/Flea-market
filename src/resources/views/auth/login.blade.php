@@ -26,7 +26,7 @@
 
 <div class="login-container">
     <h2>ログイン</h2>
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login.attempt') }}">
         @csrf
 
         <div class="form-group">
