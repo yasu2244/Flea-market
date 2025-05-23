@@ -82,7 +82,7 @@ MailHogを使用しているのでhttp://localhost:8025 でメールを確認、
 ![Image](https://github.com/user-attachments/assets/2e0d96b9-48ab-4ca8-8586-231a613d0783)
 
 ## ER図
-![Image](https://github.com/user-attachments/assets/e28cf7b8-d13b-4b65-8cc4-0186dacd4c4e)
+![Image](https://github.com/user-attachments/assets/bbe9ef5e-310c-40a3-a427-8a28997b786f)
 
 ## 環境構築
 ローカル環境下においてのテスト環境構築手順を示します。
