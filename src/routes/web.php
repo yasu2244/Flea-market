@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -72,6 +73,10 @@ Route::middleware(['auth','verified.profile'])->group(function () {
     Route::put('/mypage/profile', [ProfileController::class, 'update'])->name('mypage.profile.update');
     Route::get('/mypage/profile/create', [ProfileController::class, 'create'])->name('mypage.profile.create');
     Route::get('/mypage/switch-tab',   [MyPageController::class, 'switchTab'])->name('mypage.switchTab');
+
+    // チャット関係
+    Route::get('/chat-room/{chatRoom}', [ChatRoomController::class, 'show'])
+     ->name('chat_rooms.show');
 });
 
 // 決済結果ページ（認証不要）

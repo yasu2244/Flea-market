@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         links.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
 
-        const tab = link.dataset.tab;  // 'buy' or 'sell'
+        const tab = link.dataset.tab;  // 'sell', 'buy', or 'chat'
         try {
           const res = await fetch(`/mypage/switch-tab?tab=${tab}`, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' }

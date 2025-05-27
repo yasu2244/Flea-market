@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\ChatRoom;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\PurchaseAddressRequest;
 use Illuminate\Http\Request;
@@ -124,14 +125,25 @@ class PurchaseController extends Controller
      */
     public function handleSuccess(Request $request)
     {
-        $purchase = Purchase::where('stripe_session_id', $request->get('session_id'))->first();
+        $purchase = Purchase::where('stripe_session_id', $request->get('session_id'))->firstOrFail();
 
-        if ($purchase && !$purchase->is_completed) {
-            // フラグ更新
+        if (! $purchase->is_completed) {
+            // 購入フラグ更新
             $purchase->update(['is_completed' => true]);
+            // 商品ステータス更新
             $purchase->item->update(['is_sold' => true]);
+
+            // チャットルーム作成（重複防止）
+            ChatRoom::firstOrCreate([
+                'item_id'   => $purchase->item_id,
+                'buyer_id'  => $purchase->user_id,
+                'seller_id' => $purchase->item->user_id,
+            ]);
         }
 
-        return redirect()->route('items.index')->with('status', '購入が完了しました！');
+        // 完了メッセージ＋「取引中」タブへリダイレクト
+        return redirect()
+            ->route('mypage.index', ['tab' => 'chat'])
+            ->with('status', '購入が完了しました。取引チャットをはじめましょう！');
     }
 }
