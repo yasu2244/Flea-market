@@ -9,6 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ChatRoomController;
+use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -77,6 +78,20 @@ Route::middleware(['auth','verified.profile'])->group(function () {
     // チャット関係
     Route::get('/chat-room/{chatRoom}', [ChatRoomController::class, 'show'])
      ->name('chat_rooms.show');
+     Route::post('/chat-room/{chatRoom}/message', [ChatMessageController::class, 'store'])
+     ->name('chat_messages.store');
+    Route::get(
+        '/chat-room/{chatRoom}/message/{chatMessage}/edit',
+        [ChatMessageController::class, 'edit']
+    )->name('chat_messages.edit');      // メッセージ編集フォーム表示
+    Route::put(
+        '/chat-room/{chatRoom}/message/{chatMessage}',
+        [ChatMessageController::class, 'update']
+    )->name('chat_messages.update');     // メッセージ更新
+    Route::delete(
+        '/chat-room/{chatRoom}/message/{chatMessage}',
+        [ChatMessageController::class, 'destroy']
+    )->name('chat_messages.destroy');     // メッセージ削除
 });
 
 // 決済結果ページ（認証不要）

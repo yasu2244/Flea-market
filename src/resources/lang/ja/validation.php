@@ -47,5 +47,6 @@ return [
         'status_id'    => '商品の状態',
         'price'        => '商品価格',
         'brand'        => 'ブランド',
+        'body'         => '本文',
     ],
 ];

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Item extends Model
 {
@@ -20,50 +21,76 @@ class Item extends Model
         'is_sold',
     ];
 
-    // price を整数、is_sold を真偽値としてキャスト
     protected $casts = [
         'price'   => 'integer',
         'is_sold' => 'boolean',
     ];
 
-    // 画像パスからフル URL を返すアクセサ
+    /**
+     * 画像パスからフル URL を返すアクセサ
+     */
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image_path
-            ? asset("storage/{$this->image_path}")
-            : null;
+        $path = $this->image_path;
+        if (! $path) {
+            return null;
+        }
+        return Str::startsWith($path, 'assets/')
+            ? asset($path)
+            : asset('storage/' . $path);
     }
 
+    /**
+     * 出品者（ユーザー）
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * 商品状態
+     */
     public function status()
     {
         return $this->belongsTo(Status::class);
     }
 
+    /**
+     * カテゴリー（多対多）
+     */
     public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
 
+    /**
+     * コメント
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * いいねしたユーザー
+     */
     public function likes()
     {
         return $this->belongsToMany(User::class, 'item_likes')->withTimestamps();
     }
 
+    /**
+     * 指定ユーザーがいいね済みか判定
+     */
     public function isLikedBy(User $user): bool
     {
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+    /**
+     * 購入履歴
+     */
     public function purchases()
     {
         return $this->hasMany(Purchase::class);

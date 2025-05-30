@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\VerifyEmail;
 
@@ -68,6 +69,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());
+    }
+
+    public function getProfileImageUrlAttribute(): string
+    {
+        $path = optional($this->profile)->profile_image;
+        if (! $path) {
+            return asset('assets/default-avatar.png');
+        }
+        return Str::startsWith($path, 'assets/')
+            ? asset($path)
+            : asset('storage/'.$path);
     }
 
 }

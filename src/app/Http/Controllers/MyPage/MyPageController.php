@@ -22,12 +22,13 @@ class MyPageController extends Controller
 
         if ($tab === 'chat') {
             $rooms = ChatRoom::where('buyer_id', $user->id)
-                        ->orWhere('seller_id', $user->id)
-                        ->withCount('messages as unread_messages_count')
-                        ->orderBy('updated_at', 'desc')
-                        ->get();
+                            ->orWhere('seller_id', $user->id)
+                            // item リレーションも先に取得
+                            ->with('item')
+                            ->withCount('messages as unread_messages_count')
+                            ->orderBy('updated_at', 'desc')
+                            ->get();
 
-            // チャットタブ用にアイテム一覧をpluck
             $items = $rooms->pluck('item');
         }
         elseif ($tab === 'buy') {
@@ -51,10 +52,11 @@ class MyPageController extends Controller
 
         if ($tab === 'chat') {
             $rooms = ChatRoom::where('buyer_id', $userId)
-                        ->orWhere('seller_id', $userId)
-                        ->withCount('messages as unread_messages_count')
-                        ->orderBy('updated_at', 'desc')
-                        ->get();
+                            ->orWhere('seller_id', $userId)
+                            ->with('item')
+                            ->withCount('messages as unread_messages_count')
+                            ->orderBy('updated_at', 'desc')
+                            ->get();
 
             return view('mypage.partials.chat_room_list', compact('rooms'));
         }
