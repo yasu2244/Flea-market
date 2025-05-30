@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ChatRoom;
 use App\Models\ChatMessage;
 use App\Models\Purchase;
+use App\Notifications\TransactionCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,7 +37,6 @@ class ChatRoomController extends Controller
                    ? $room->seller->load('profile')
                    : $room->buyer->load('profile');
 
-        // ここで明示的に purchase を絞り込む
         $purchase = Purchase::where('item_id', $chatRoom->item_id)
                             ->where('user_id', $chatRoom->buyer_id)
                             ->firstOrFail();
@@ -46,10 +46,14 @@ class ChatRoomController extends Controller
 
     public function complete(ChatRoom $chatRoom)
     {
-        // モーダル用にも同じく取得
+        // モーダル用に取得
         $purchase = Purchase::where('item_id', $chatRoom->item_id)
                             ->where('user_id', $chatRoom->buyer_id)
                             ->firstOrFail();
+
+        // メール通知
+        $seller = $chatRoom->item->user;
+        $seller->notify(new TransactionCompleted($purchase));
 
         return view('chat.complete_modal', compact('chatRoom', 'purchase'));
     }

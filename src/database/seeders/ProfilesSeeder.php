@@ -12,6 +12,7 @@ class ProfilesSeeder extends Seeder
     {
         $user1 = User::where('email', 'test1@example.com')->first();
         $user2 = User::where('email', 'test2@example.com')->first();
+        $user3 = User::where('email', 'test3@example.com')->first();
 
         Profile::factory()->create([
             'user_id' => $user1->id,
@@ -21,6 +22,11 @@ class ProfilesSeeder extends Seeder
         Profile::factory()->create([
             'user_id' => $user2->id,
             'profile_image' => 'assets/images/items/Test_User2.jpg',
+        ]);
+
+        Profile::factory()->create([
+            'user_id' => $user3->id,
+            'profile_image' => 'assets/images/items/Test_User3.jpg',
         ]);
     }
 }

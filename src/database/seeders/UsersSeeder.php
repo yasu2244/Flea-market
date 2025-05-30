@@ -23,5 +23,12 @@ class UsersSeeder extends Seeder
             'profile_completed' => true,
             'email_verified_at' => now(),
         ]);
+
+        User::create([
+            'email' => 'test3@example.com',
+            'password' => Hash::make('1234test3'),
+            'profile_completed' => true,
+            'email_verified_at' => now(),
+        ]);
     }
 }
