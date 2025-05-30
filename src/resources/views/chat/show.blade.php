@@ -114,6 +114,7 @@
             method="post"
             enctype="multipart/form-data"
             class="chat-input js-send-form"
+            data-room-id="{{ $room->id }}"
         >
 
         @csrf
@@ -143,4 +144,5 @@
 @section('js')
     <script src="{{ asset('assets/js/chat/inline-edit.js') }}"></script>
     <script src="{{ asset('assets/js/chat/image-preview.js') }}"></script>
+    <script src="{{ asset('assets/js/chat/chat-draft.js') }}"></script>
 @endsection
