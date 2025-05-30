@@ -9,6 +9,8 @@ class ChatMessage extends Model
 {
     protected $fillable = ['chat_room_id', 'user_id', 'body', 'image_path'];
 
+    protected $touches = ['chatRoom'];
+
     // どのチャットルームのメッセージか
     public function chatRoom(): BelongsTo
     {

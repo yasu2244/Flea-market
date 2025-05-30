@@ -17,10 +17,11 @@ return new class extends Migration {
             $table->foreignId('user_id')
                   ->constrained()
                   ->onDelete('cascade');
-            // 本文
             $table->text('body');
-            // 画像パス（任意）
+            // 画像パス
             $table->string('image_path')->nullable();
+            // 既読したか
+            $table->unsignedBigInteger('read_by')->nullable();
             $table->timestamps();
         });
     }
