@@ -20,7 +20,7 @@
 .profile-image-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 24px;
     background-color: #fff;
     max-width: 800px;
@@ -29,12 +29,12 @@
 }
 
 /* プロフィール画像と名前間余白 */
-.profile-image-wrapper + .profile-name {
+.profile-image-wrapper + .profile-info {
     margin-left: 50px;
 }
 
 /* 名前と編集ボタン間余白 */
-.profile-name + .profile-edit-btn {
+.profile-info + .profile-edit-btn {
     margin-left: auto;
 }
 
@@ -56,12 +56,34 @@
     display: block;
 }
 
-/* プロフィール名 */
+/* プロフィール名＋評価 */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 16px;
+}
+
 .profile-name {
-    margin: 0;
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
-    color: #333;
+    margin: 0;
+}
+
+/* 平均評価 */
+.user-rating {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.user-rating .star {
+    font-size: 24px;
+    color: #CCC;
+}
+
+.user-rating .star.selected {
+    color: #FFF048;
 }
 
 /* 編集ボタン */

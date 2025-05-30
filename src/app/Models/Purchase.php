@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Purchase extends Model
 {
@@ -21,15 +22,30 @@ class Purchase extends Model
         'stripe_session_id',
     ];
 
-    // 購入商品のリレーション
+    // 購入商品
     public function item()
     {
         return $this->belongsTo(Item::class);
     }
 
-    // 購入した「ユーザー」へのリレーション
+    // 購入者
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // この購入に対する評価一覧
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
+    // この購入に対応するチャットルーム
+    public function chatRoom(): HasOne
+    {
+        // purchases.item_id = chat_rooms.item_id
+        // purchases.user_id = chat_rooms.buyer_id
+        return $this->hasOne(ChatRoom::class, 'item_id', 'item_id')
+                    ->whereColumn('chat_rooms.buyer_id', 'purchases.user_id');
     }
 }

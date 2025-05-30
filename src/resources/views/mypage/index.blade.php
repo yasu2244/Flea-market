@@ -11,7 +11,6 @@
     </div>
 @endif
 
-
 <div class="mypage-header">
     <div class="profile-image-container">
         @php
@@ -41,8 +40,18 @@
             @endif
         </div>
 
-        <div class="profile-name">
-            {{ optional($user->profile)->name ?: $user->name }}
+        <div class="profile-info">
+            <p class="profile-name">
+                {{ optional($user->profile)->name ?: $user->name }}
+            </p>
+
+            @if($user->average_rating > 0)
+                <div class="user-rating">
+                @for ($i = 1; $i <= 5; $i++)
+                    <span class="star {{ $i <= $user->average_rating ? 'selected' : '' }}">★</span>
+                @endfor
+                </div>
+            @endif
         </div>
 
         <a href="{{ route('mypage.profile.edit') }}" class="profile-edit-btn">
@@ -56,24 +65,25 @@
         <a href="{{ url('/mypage?tab=sell') }}"
             class="tab-link {{ $tab==='sell'?'active':'' }}"
             data-tab="sell">
-        出品した商品
+            出品した商品
         </a>
     </li>
     <li>
         <a href="{{ url('/mypage?tab=buy') }}"
             class="tab-link {{ $tab==='buy'?'active':'' }}"
             data-tab="buy">
-        購入した商品
+            購入した商品
         </a>
     </li>
     <li>
         <a href="{{ url('/mypage?tab=chat') }}"
-            class="tab-link {{ $tab==='chat'?'active':'' }}"
-            data-tab="chat">
-        取引中の商品
-        @if(isset($rooms) && $rooms->count())
-            <span class="tab-badge">{{ $rooms->count() }}</span>
-        @endif
+                class="tab-link {{ $tab==='chat'?'active':'' }}"
+                data-tab="chat">
+                取引中の商品
+            <span class="tab-badge"
+                    @if($chatRoomCount === 0) style="display:none" @endif>
+                {{ $chatRoomCount }}
+            </span>
         </a>
     </li>
 </ul>
@@ -88,5 +98,5 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('assets/js/mypage/index.js') }}"></script>
+    <script src="{{ asset('assets/js/mypage/index.js') }}"></script>
 @endsection

@@ -84,10 +84,11 @@
     border: none;
     border-radius: 16px;
     cursor: pointer;
+    transition: filter 0.2s ease;
 }
 
 .btn-complete:hover {
-    opacity: 0.9;
+    background-color: #c54242;
 }
 
 /* 商品情報 */

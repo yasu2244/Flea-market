@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\ChatMessageController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\MyPage\MyPageController;
 use App\Http\Controllers\MyPage\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -80,18 +81,17 @@ Route::middleware(['auth','verified.profile'])->group(function () {
      ->name('chat_rooms.show');
      Route::post('/chat-room/{chatRoom}/message', [ChatMessageController::class, 'store'])
      ->name('chat_messages.store');
-    Route::get(
-        '/chat-room/{chatRoom}/message/{chatMessage}/edit',
-        [ChatMessageController::class, 'edit']
-    )->name('chat_messages.edit');      // メッセージ編集フォーム表示
-    Route::put(
-        '/chat-room/{chatRoom}/message/{chatMessage}',
+    Route::put('/chat-room/{chatRoom}/message/{chatMessage}',
         [ChatMessageController::class, 'update']
     )->name('chat_messages.update');     // メッセージ更新
-    Route::delete(
-        '/chat-room/{chatRoom}/message/{chatMessage}',
+    Route::delete('/chat-room/{chatRoom}/message/{chatMessage}',
         [ChatMessageController::class, 'destroy']
     )->name('chat_messages.destroy');     // メッセージ削除
+
+    // 評価送信
+    Route::post('/purchase/{purchase}/evaluate',
+                [EvaluationController::class,'store'])
+        ->name('purchase.evaluate');
 });
 
 // 決済結果ページ（認証不要）

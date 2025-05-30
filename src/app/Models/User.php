@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -69,6 +70,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());
+    }
+
+    public function evaluationsGiven()
+    {
+        return $this->hasMany(Evaluation::class, 'rater_id');
+    }
+
+    public function evaluationsReceived()
+    {
+        return $this->hasMany(Evaluation::class, 'ratee_id');
+    }
+
+    public function receivedEvaluations(): HasMany
+    {
+        return $this->hasMany(Evaluation::class, 'ratee_id');
+    }
+
+    // 平均評価を丸めて返すアクセサ
+    public function getAverageRatingAttribute(): int
+    {
+        // 評価がなければ 0
+        $avg = $this->receivedEvaluations()->avg('rating') ?? 0;
+
+        // 四捨五入して整数化
+        return (int) round($avg);
     }
 
     public function getProfileImageUrlAttribute(): string

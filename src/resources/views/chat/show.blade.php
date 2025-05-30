@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/css/chat/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/chat/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/chat/complete_modal.css') }}">
 @endsection
 
 @section('content')
@@ -20,19 +21,23 @@
         </ul>
     </aside>
 
-  {{-- メインチャットエリア --}}
+    {{-- メインエリア --}}
     <section class="chat-main">
-    {{-- ヘッダー：相手情報＋完了ボタン --}}
+    {{-- ヘッダー：相手情報・完了ボタン --}}
     <div class="chat-header">
         <img src="{{ $partner->profile_image_url }}" alt="相手画像" class="avatar">
-
         <h2>
             「{{ optional($partner->profile)->name ?: $partner->name }}」さんとの取引画面
         </h2>
-        <form action="#">
-            @csrf
-            <button type="submit" class="btn-complete">取引を完了する</button>
-        </form>
+        {{-- 取引完了ボタン --}}
+        <button
+            type="button"
+            id="openCompleteModal"
+            class="btn-complete"
+            data-evaluate-url="{{ route('purchase.evaluate', $purchase) }}"
+        >
+        取引を完了する
+        </button>
     </div>
 
     {{-- 商品情報 --}}
@@ -46,6 +51,9 @@
 
     {{-- チャット欄 --}}
     <div class="chat-messages">
+        {{-- モーダル表示 --}}
+        @include('chat.complete_modal')
+
         @foreach($room->messages as $msg)
             @php $isMine = $msg->user_id === auth()->id(); @endphp
             <div class="message-row {{ $isMine ? 'mine' : 'their' }}" data-msg-id="{{ $msg->id }}">
@@ -71,7 +79,7 @@
 
                     <div class="error-message js-error-{{ $msg->id }}"></div>
 
-                        {{-- .message-body と同じコンテナ --}}
+                    {{-- .message-body と同じコンテナ --}}
                     <div class="message-body editing">
                         <textarea
                             name="body"
@@ -145,4 +153,5 @@
     <script src="{{ asset('assets/js/chat/inline-edit.js') }}"></script>
     <script src="{{ asset('assets/js/chat/image-preview.js') }}"></script>
     <script src="{{ asset('assets/js/chat/chat-draft.js') }}"></script>
+    <script src="{{ asset('assets/js/chat/complete_modal.js') }}"></script>
 @endsection
