@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\ChatRoom;
 use App\Models\ChatMessage;
 use App\Models\Purchase;
-use App\Notifications\TransactionCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,10 +49,6 @@ class ChatRoomController extends Controller
         $purchase = Purchase::where('item_id', $chatRoom->item_id)
                             ->where('user_id', $chatRoom->buyer_id)
                             ->firstOrFail();
-
-        // メール通知
-        $seller = $chatRoom->item->user;
-        $seller->notify(new TransactionCompleted($purchase));
 
         return view('chat.complete_modal', compact('chatRoom', 'purchase'));
     }

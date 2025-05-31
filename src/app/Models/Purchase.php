@@ -39,13 +39,4 @@ class Purchase extends Model
     {
         return $this->hasMany(Evaluation::class);
     }
-
-    // この購入に対応するチャットルーム
-    public function chatRoom(): HasOne
-    {
-        // purchases.item_id = chat_rooms.item_id
-        // purchases.user_id = chat_rooms.buyer_id
-        return $this->hasOne(ChatRoom::class, 'item_id', 'item_id')
-                    ->whereColumn('chat_rooms.buyer_id', 'purchases.user_id');
-    }
 }
