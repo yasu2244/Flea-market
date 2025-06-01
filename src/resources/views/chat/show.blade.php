@@ -29,15 +29,26 @@
         <h2>
             「{{ optional($partner->profile)->name ?: $partner->name }}」さんとの取引画面
         </h2>
-        {{-- 取引完了ボタン --}}
-        <button
-            type="button"
-            id="openCompleteModal"
-            class="btn-complete"
-            data-evaluate-url="{{ route('purchase.evaluate', $purchase) }}"
-        >
-        取引を完了する
-        </button>
+        {{-- 取引完了ボタン
+        ・購入者がまだ“buyer_rated” していないなら「取引完了」ボタンを表示 --}}
+        @if($isBuyer && ! $purchase->buyer_rated)
+            <button
+                type="button"
+                id="openCompleteModal"
+                class="btn-complete"
+                data-evaluate-url="{{ route('purchase.evaluate', $purchase) }}"
+            >
+                取引を完了する
+            </button>
+
+            {{-- 購入者にモーダルをレンダリング --}}
+            @include('chat.complete_modal')
+        @endif
+
+        {{-- 出品者が「買い手が評価済み・自分（出品者）がまだ評価していない」ときもモーダルを出す --}}
+        @if($isSeller && $purchase->buyer_rated && ! $purchase->seller_rated)
+            @include('chat.complete_modal')
+        @endif
     </div>
 
     {{-- 商品情報 --}}
@@ -51,9 +62,6 @@
 
     {{-- チャット欄 --}}
     <div class="chat-messages">
-        {{-- モーダル表示 --}}
-        @include('chat.complete_modal')
-
         @foreach($room->messages as $msg)
             @php $isMine = $msg->user_id === auth()->id(); @endphp
             <div class="message-row {{ $isMine ? 'mine' : 'their' }}" data-msg-id="{{ $msg->id }}">

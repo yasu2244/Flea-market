@@ -38,11 +38,17 @@ class EvaluationController extends Controller
             'rating'      => $data['rating'],
         ]);
 
-        // メール通知
+        //  Purchase の buyer_rated または seller_rated を更新
         if (Auth::id() === $purchase->user_id) {
-            // 購入者が評価を行った → 通知先は「出品者(user_id)」
+            // 購入者が評価した場合
+            $purchase->update(['buyer_rated' => true]);
+
+            // 出品者への通知メールを送る
             $seller = $purchase->item->user;
             $seller->notify(new TransactionCompleted($purchase));
+        } else {
+            // 出品者が評価した場合
+            $purchase->update(['seller_rated' => true]);
         }
 
         return redirect()

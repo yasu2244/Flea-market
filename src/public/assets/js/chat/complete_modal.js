@@ -5,70 +5,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const submit  = document.getElementById('evaluateSubmit');
     let rating    = 0;
 
+    // overlay・stars・submit がなければ何もしない（＝モーダル要素がないページではスルー）
+    if (!overlay || stars.length === 0 || !submit) {
+        return;
+    }
+
+    // オーバーレイ外クリックでモーダルを閉じる
     overlay.addEventListener('click', e => {
         if (e.target === overlay) overlay.style.display = 'none';
     });
 
-    // 星をクリックして rating を更新
+    // 星アイコンのホバー／クリック処理
     stars.forEach(star => {
         const val = parseInt(star.dataset.value, 10);
 
-        // ホバー時
+        // ホバー: hovered クラスを付ける
         star.addEventListener('mouseenter', () => {
             stars.forEach(s => {
-                s.classList.toggle('hovered', parseInt(s.dataset.value, 10) <= val);
+                const v = parseInt(s.dataset.value, 10);
+                if (v <= val) {
+                    s.classList.add('hovered');
+                } else {
+                    s.classList.remove('hovered');
+                }
             });
         });
-        // ホバー解除
         star.addEventListener('mouseleave', () => {
             stars.forEach(s => s.classList.remove('hovered'));
         });
 
-        // クリックで選択
+        // クリック: selected クラスを付けて評価を確定
         star.addEventListener('click', () => {
-        rating = val;
-        stars.forEach(s => {
-            s.classList.toggle('selected',
-                parseInt(s.dataset.value, 10) <= rating
-            );
-        });
-        submit.disabled = false;
-        submit.classList.add('enabled');
-        });
-    });
-
-      stars.forEach(star => {
-        star.addEventListener('mouseenter', () => {
-        const hoverVal = parseInt(star.dataset.value, 10);
+            rating = val;
             stars.forEach(s => {
-                s.classList.toggle('hovered',
-                    parseInt(s.dataset.value, 10) <= hoverVal
-                );
+                const v = parseInt(s.dataset.value, 10);
+                if (v <= rating) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
             });
-        });
-        star.addEventListener('mouseleave', () => {
-            // ホバーが外れたらすべての hovered をクリア
-            stars.forEach(s => s.classList.remove('hovered'));
+            submit.disabled = false;
+            submit.classList.add('enabled');
         });
     });
 
-    // 送信ボタン押下で動的フォーム送信
-    openBtn.addEventListener('click', () => {
-        rating = 0;
-        stars.forEach(s => s.classList.remove('selected'));
-        submit.disabled = true;
-        submit.classList.remove('enabled');
+    // 「取引を完了する」ボタンが存在すれば、クリック時にモーダルを開く
+    if (openBtn) {
+        openBtn.addEventListener('click', () => {
+            rating = 0;
+            stars.forEach(s => {
+                s.classList.remove('selected');
+                s.classList.remove('hovered');
+            });
+            submit.disabled = true;
+            submit.classList.remove('enabled');
+            overlay.style.display = 'flex';
+        });
+    }
+
+    if (!openBtn) {
         overlay.style.display = 'flex';
-    });
-    overlay.addEventListener('click', e => {
-        if (e.target === overlay) overlay.style.display = 'none';
-    });
+    }
+
+    // 送信ボタン押下 → 動的フォーム作成＆送信
     submit.addEventListener('click', () => {
-        if (!rating) return;
+        if (!rating) {
+            return;
+        }
         const token = document.querySelector('meta[name="csrf-token"]').content;
+        // モーダル自身の data-evaluate-url 属性を読む
+        const actionUrl = overlay.dataset.evaluateUrl;
         const form  = document.createElement('form');
         form.method = 'POST';
-        form.action = openBtn.dataset.evaluateUrl;
+        form.action = openBtn ? openBtn.dataset.evaluateUrl : overlay.dataset.evaluateUrl;
         form.innerHTML = `
             <input type="hidden" name="_token" value="${token}">
             <input type="hidden" name="rating" value="${rating}">

@@ -19,6 +19,10 @@ return new class extends Migration
             $table->unsignedInteger('price');
             $table->boolean('is_completed')->default(false);
             $table->string('stripe_session_id')->nullable();
+            // 購入者が評価済みか
+            $table->boolean('buyer_rated')->default(false);
+            // 出品者が評価済みか
+            $table->boolean('seller_rated')->default(false);
             $table->timestamps();
         });
     }

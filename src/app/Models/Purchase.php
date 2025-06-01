@@ -20,6 +20,8 @@ class Purchase extends Model
         'price',
         'is_completed',
         'stripe_session_id',
+        'buyer_rated',
+        'seller_rated',
     ];
 
     // 購入商品

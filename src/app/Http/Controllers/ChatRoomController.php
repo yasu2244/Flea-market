@@ -36,11 +36,23 @@ class ChatRoomController extends Controller
                    ? $room->seller->load('profile')
                    : $room->buyer->load('profile');
 
+        // チャットルームに対応する Purchase を取得
         $purchase = Purchase::where('item_id', $chatRoom->item_id)
                             ->where('user_id', $chatRoom->buyer_id)
                             ->firstOrFail();
 
-        return view('chat.show', compact('room', 'rooms', 'partner', 'purchase'));
+        // ログインユーザーが「購入者か出品者か」を判定
+        $isBuyer = (Auth::id() === $room->buyer_id);
+        $isSeller = (Auth::id() === $room->seller_id);
+
+        return view('chat.show', [
+            'room'       => $room,
+            'rooms'      => $rooms,
+            'partner'    => $partner,
+            'purchase'   => $purchase,
+            'isBuyer'    => $isBuyer,
+            'isSeller'   => $isSeller,
+        ]);
     }
 
     public function complete(ChatRoom $chatRoom)

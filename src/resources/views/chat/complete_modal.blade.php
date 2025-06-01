@@ -1,4 +1,7 @@
-<div id="completeModal" class="modal-overlay" style="display:none;">
+<div id="completeModal" class="modal-overlay"
+    data-evaluate-url="{{ route('purchase.evaluate', $purchase) }}"
+    style="display:none;"
+>
     <div class="modal-content">
         <h3 class="modal-title">取引が完了しました。</h3>
         <hr class="modal-divider">
