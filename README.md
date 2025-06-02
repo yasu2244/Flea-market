@@ -225,6 +225,10 @@ FEATURES=emailVerification
 ```
 sudo chmod -R 777 src/*
 ```
+それでもページが表示されない場合はコンテナを削除してもう一度dockerを立ち上げてください。
+```
+docker-compose up -d --build
+```
 
 次にストレージのシンボリックリンクを作成。画像が正常に表示されます。<br />
 dockerコンテナ内で
