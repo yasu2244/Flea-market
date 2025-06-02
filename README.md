@@ -1,7 +1,7 @@
 # 模擬案件 フリマアプリ
 
 # coachtechフリマ
-![Image](https://github.com/user-attachments/assets/07207c13-41ec-4760-a969-8c2dad37c887)
+![フリマアプリ商品一覧ページ](ReadMe-Images/商品一覧ページ.png) 
 
 ## 作成した目的
 webアプリケーション開発の学習のため
@@ -64,6 +64,34 @@ MailHogを使用しているのでhttp://localhost:8025 でメールを確認、
 ・出品機能<br />
 出品ページでは画像、カテゴリ、商品の詳細情報、商品名と説明を記入して出品できます。<br />
 
+・取引中の商品タブ<br />
+ユーザーが商品を購入した段階で出品者と購入者のマイページの取引中の商品タブに商品が追加される。<br />
+タブには取引中の商品の件数が表示され、標示されている商品の左上には新着メッセージの件数が表示される。<br />
+商品画像をクリックすることで取引チャット画面へ遷移できる。
+![取引中の商品タブ](ReadMe-Images/取引中の商品タブ.png) 
+<br />
+・取引チャット機能<br />
+購入者と出品者は「取引中の商品」タブの表示画像よりチャット画面へ遷移できる。<br />
+サイドバーで現在進行している取引の商品についてのチャット画面へ遷移できる。取引中の商品の並び順は新規メッセージが来た順に表示すされる。<br />
+その際、入力中のメッセージは保持される。<br />
+![取引チャット画面](ReadMe-Images/取引チャット画面.png) 
+<br />
+
+投稿済みのメッセージのみを編集・削除することができる<br />
+![メッセージ編集](ReadMe-Images/コメント編集.png) 
+<br />
+
+購入者のみ、取引を完了ボタンをクリックすると取引完了モーダルからユーザーの評価をすることができる<br />
+![評価モーダル](ReadMe-Images/評価モーダル.png) 
+<br />
+
+購入者が評価を送信すると、出品者にメールで通知される。<br />
+出品者はその後取引チャットにアクセスした際、モーダルが表示され評価することができる。<br />
+モーダルを消してしまっても再度アクセスすると表示される。<br />
+評価された平均値は四捨五入され、マイページで表示される。
+![ユーザーへの評価](ReadMe-Images/ユーザーへの評価.png) 
+<br />
+
 ## 使用技術（実行環境）
 ・開発フレームワーク<br />
   PHP 8.1.32  <br />
@@ -76,13 +104,14 @@ MailHogを使用しているのでhttp://localhost:8025 でメールを確認、
 
 
 ## テーブル設計
-![Image](https://github.com/user-attachments/assets/6d5cdaec-173a-4b2b-b465-bc3b9c3f815c)
-![Image](https://github.com/user-attachments/assets/33692b8e-89e3-4b66-a5fd-b3fcfbbf5de0)
-![Image](https://github.com/user-attachments/assets/2c585771-d24c-4202-b1cd-26cc79de6c69)
-![Image](https://github.com/user-attachments/assets/2e0d96b9-48ab-4ca8-8586-231a613d0783)
+![フリマテーブルNO.1](ReadMe-Images/テーブル一覧No.1.png) 
+![フリマテーブルNO.2](ReadMe-Images/テーブル一覧No.2.png) 
+![フリマテーブルNO.3](ReadMe-Images/テーブル一覧No.3.png) 
+![フリマテーブルNO.4](ReadMe-Images/テーブル一覧No.4.png) 
+![フリマテーブルNO.5](ReadMe-Images/テーブル一覧No.5.png) 
 
 ## ER図
-![Image](https://github.com/user-attachments/assets/bbe9ef5e-310c-40a3-a427-8a28997b786f)
+![フリマER図](ReadMe-Images/フリマアプリer図.png) 
 
 ## 環境構築
 ローカル環境下においてのテスト環境構築手順を示します。
