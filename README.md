@@ -81,6 +81,7 @@ MailHogを使用しているのでhttp://localhost:8025 でメールを確認、
 ![メッセージ編集](ReadMe-Images/コメント編集.png) 
 <br />
 
+・評価機能<br />
 購入者のみ、取引を完了ボタンをクリックすると取引完了モーダルからユーザーの評価をすることができる<br />
 ![評価モーダル](ReadMe-Images/評価モーダル.png) 
 <br />
@@ -176,7 +177,26 @@ composer install
 ```
 
 phpコンテナ内でアプリケーションの暗号キーの作成、テーブルとダミーデータの作成を行います。<br />
-マイグレーションが正常に動かない場合はdockerコンテナを再起動してみてください。
+マイグレーションが正常に動かない場合はdockerコンテナを再起動してみてください。<br />
+ユーザーのダミーデータの詳細ついては以下の通りです。<br />       
+3つのダミーデータはすべてプロフィール作成とメール認証済みです。<br />      
+ 
+No.1<br /> 
+メールアドレス：test1@example.com <br />  
+パスワード：1234test1 <br /> 
+出品商品：腕時計/HDD/玉ねぎ3束/革靴/ノートPC <br /> 
+<br /> 
+No.2<br /> 
+メールアドレス：test2@example.com   <br />  
+パスワード：1234test2 <br /> 
+出品商品：マイク/ショルダーバッグ/タンブラー/コーヒーミル/メイクセット <br /> 
+<br /> 
+No.3<br /> 
+メールアドレス：test3@example.com   <br />  
+パスワード：1234test3 <br /> 
+出品商品：なし<br />       
+
+
 ```
 php artisan key:generate
 ```
@@ -212,13 +232,13 @@ dockerコンテナ内で
 php artisan storage:link
 ```
 
-Stripeの実装
+### Stripeの実装
 まずStripeのアカウントを作成し、APIキーを取得する必要があります。<br />
-### 1. Stripeアカウントの作成
+#### 1. Stripeアカウントの作成
 1. [Stripe公式サイト](https://dashboard.stripe.com/register) にアクセスし、新規アカウントを作成。
 2. ダッシュボードにログイン。
 
-### 2. APIキーの取得
+#### 2. APIキーの取得
 1. Stripeダッシュボードで「開発者」→「APIキー」に移動。
 2. 公開可能キー（Publishable key）と シークレットキー（Secret key）を取得。
 3. `.env` ファイル下部に以下のように追加してください。
@@ -227,11 +247,15 @@ STRIPE_KEY=your_stripe_public_key
 STRIPE_SECRET=your_stripe_secret_key
 ```
 
-### 3. コンビニ支払いの有効化
+#### 3. コンビニ支払いの有効化
 1. Stripeダッシュボードの設定から「決済」→「決済手段」タブに移動。
 2. 店舗支払い欄のコンビニ決済を有効にする。
 
-以上で使用可能になります。
+以上で使用可能になります。<br />
+
+### ダミーデータについて
+
+
 
 ## テスト方法
 ### 概要
@@ -264,7 +288,7 @@ cp src/.env.dusk.local.example src/.env.dusk.local
 php artisan key:generate
 ```
 
-・ テスト用データベースの作成
+#### テスト用データベースの作成
 phpコンテナから「exit」で抜けてmysqlコンテナ内でテスト用データベースを作成します。
 ```
 docker-compose exec mysql bash
@@ -281,7 +305,6 @@ GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
 
 FLUSH PRIVILEGES;
 ```
-
 
 データベースの確認<br />
 下記のコマンドを実行すると demo_test が一覧に含まれているはずです。
