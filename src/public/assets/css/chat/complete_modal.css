@@ -1,12 +1,14 @@
+/* モーダル背景 */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0px; left: 0px; right: 0px; bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
 }
 
+/* モーダル内容 */
 .modal-content {
     background: #FDFCE6;
     border-radius: 8px;
@@ -17,24 +19,28 @@
     transform: translate(80px, -20px);
 }
 
+/* モーダルタイトル */
 .modal-title {
-  margin: 0 0 8px;
-  font-size: 1.25rem;
-  color: #333;
+    margin: 0px 0px 8px 0px;
+    font-size: 20px;
+    color: #333;
 }
 
+/* 区切り線 */
 .modal-divider {
-  border: none;
-  border-top: 1px solid #CCC;
-  margin: 8px 0;
+    border: none;
+    border-top: 1px solid #CCC;
+    margin: 8px 0px;
 }
 
+/* モーダル補足テキスト */
 .modal-subtitle {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 12px;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
 }
 
+/* 星評価ラッパー */
 .star-rating {
     display: flex;
     justify-content: center;
@@ -42,35 +48,81 @@
     margin-bottom: 12px;
 }
 
+/* 星アイコン */
 .star {
-  font-size: 2rem;
-  color: #CCC;
-  cursor: pointer;
-  transition: color 0.2s;
+    font-size: 32px;
+    color: #CCC;
+    cursor: pointer;
+    transition: color 0.2s;
 }
 
+/* 星アイコン（選択済み） */
 .star.selected {
-  color: #FFF048;
+    color: #FFF048;
 }
 
+/* 星アイコン（ホバー時） */
 .star.hovered {
-  color: #FFF048;
+    color: #FFF048;
 }
 
+/* 送信ボタン */
 .btn-submit {
     background-color: #FF8282;
     color: #fff;
     border: none;
     padding: 10px 16px;
-    font-size: 1rem;
+    font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
     margin-bottom: 16px;
     display: block;
-    margin: 0 16px 16px auto;;
+    margin: 0px 16px 16px auto;
 }
 
+/* 送信ボタンホバー */
 .btn-submit:hover {
     background-color: #E66060;
+}
+
+/* PC表示（1400px～1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .modal-content {
+        max-width: 480px;
+        transform: translate(60px, -20px);
+    }
+    .modal-title {
+        font-size: 18px;
+    }
+    .star {
+        font-size: 29px;
+    }
+    .btn-submit {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+}
+
+/* タブレット表示（768px～850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .modal-content {
+        max-width: 350px;
+        transform: translate(0px, 0px);
+    }
+    .modal-title {
+        font-size: 16px;
+    }
+    .modal-subtitle {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+    .star {
+        font-size: 24px;
+    }
+    .btn-submit {
+        padding: 8px 12px;
+        font-size: 14px;
+        margin: 0px 12px 12px auto;
+    }
 }

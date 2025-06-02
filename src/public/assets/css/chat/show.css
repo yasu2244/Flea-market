@@ -1,3 +1,4 @@
+/* チャットページ全体 */
 .chat-page {
     display: flex;
     gap: 24px;
@@ -9,6 +10,8 @@
     width: 200px;
     background-color: #868686;
 }
+
+/* サイドバー見出し */
 .chat-sidebar h3 {
     margin-bottom: 36px;
     font-size: 30px;
@@ -16,22 +19,26 @@
     color: #FFFFFF;
 }
 
+/* サイドバーリスト */
 .chat-sidebar ul {
     list-style: none;
-    padding: 0;
+    padding: 0px;
 }
 
+/* サイドバーリストアイテム */
 .chat-sidebar ul li {
     width: 80%;
-    margin: 0 auto 8px;
+    margin: 0px auto 8px auto;
     background-color: #EEEFEB;
     border-radius: 4px;
 }
 
+/* サイドバーリストアイテム間余白 */
 .chat-sidebar ul li:not(:last-child) {
-  margin-bottom: 32px;
+    margin-bottom: 32px;
 }
 
+/* サイドバーリンク */
 .chat-sidebar ul li a {
     display: block;
     padding: 8px 12px;
@@ -40,6 +47,7 @@
     color: #333;
 }
 
+/* サイドバーリンクホバー */
 .chat-sidebar ul li a:hover {
     background-color: #e0e1de;
     text-decoration: none;
@@ -52,18 +60,19 @@
     flex-direction: column;
 }
 
-/* ヘッダー（相手情報＋完了ボタン） */
+/* ヘッダー */
 .chat-header {
     display: flex;
     align-items: center;
     gap: 16px;
     padding: 16px;
     border-bottom: 2px solid #5F5F5F;
-    flex-shrink: 0;     /* 固定表示 */
-    background: #fff; /* 下スクロール時に下の要素が透けないよう */
+    flex-shrink: 0;
+    background: #fff;
     z-index: 1;
 }
 
+/* ヘッダーアバター */
 .chat-header .avatar {
     width: 48px;
     height: 48px;
@@ -71,12 +80,14 @@
     object-fit: cover;
 }
 
+/* ヘッダータイトル */
 .chat-header h2 {
     flex: 1;
     font-size: 36px;
-    margin: 0;
+    margin: 0px;
 }
 
+/* 完了ボタン */
 .btn-complete {
     padding: 8px 12px;
     background-color: #FF8282;
@@ -87,11 +98,12 @@
     transition: filter 0.2s ease;
 }
 
+/* 完了ボタンホバー */
 .btn-complete:hover {
     background-color: #c54242;
 }
 
-/* 商品情報 */
+/* 商品情報行 */
 .chat-product {
     display: flex;
     align-items: center;
@@ -102,6 +114,7 @@
     background: #fff;
 }
 
+/* 商品サムネイル */
 .chat-product .product-thumb {
     width: 203px;
     height: 206px;
@@ -109,27 +122,29 @@
     border-radius: 8px;
 }
 
+/* 商品名 */
 .product-info .product-name {
     font-size: 48px;
     font-weight: bold;
-    margin: 0 0 4px;
+    margin: 0px 0px 4px 0px;
 }
 
+/* 商品価格 */
 .product-info .product-price {
     font-size: 36px;
-    margin: 0;
+    margin: 0px;
 }
 
 /* チャット欄 */
 .chat-messages {
     display: flex;
     flex-direction: column;
-    flex: 1;               /* ヘッダー/商品情報/入力欄以外の空間を埋める */
-    overflow-y: auto;      /* 縦スクロール */
+    flex: 1;
+    overflow-y: auto;
     padding: 12px 16px;
 }
 
-/* 各メッセージ行 */
+/* メッセージ行 */
 .message-row {
     display: flex;
     flex-direction: column;
@@ -142,7 +157,7 @@
     max-width: 100%;
 }
 
-/* 自身のメッセージ */
+/* 自分のメッセージ */
 .message-row.mine {
     align-self: flex-end;
     text-align: right;
@@ -154,63 +169,67 @@
     text-align: left;
 }
 
-/* プロフィール画像とユーザー名 */
+/* メッセージヘッダー */
 .message-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
 }
+
+/* アバター（小） */
 .avatar-small {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
+
+/* ユーザー名 */
 .username {
-    font-size: 0.85rem;
+    font-size: 14px;
     font-weight: bold;
 }
 
-/* プレビュー領域 */
+/* 画像プレビューコンテナ */
 .image-preview-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 16px;
-  max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 16px;
+    max-width: 100%;
 }
 
 /* プレビューカード */
 .image-preview {
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 0 auto;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0px auto;
 }
 
 /* プレビュー画像 */
 .image-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* 削除ボタン */
+/* プレビュー削除ボタン */
 .image-preview .remove-btn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 14px;
-  line-height: 18px;
-  cursor: pointer;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 18px;
+    cursor: pointer;
 }
 
 /* メッセージ本文 */
@@ -222,6 +241,7 @@
     text-align: left;
 }
 
+/* メッセージ画像 */
 .message-body img {
     display: block;
     max-width: 80%;
@@ -229,59 +249,63 @@
     margin-top: 8px;
 }
 
-/* アクションボタン */
+/* メッセージアクション */
 .message-actions {
     display: flex;
     gap: 12px;
     margin-top: 8px;
-    width: fit-content
+    width: fit-content;
 }
 
+/* アクション配置 */
 .message-actions {
-    align-self: flex-end;  /* ボタンは右寄せ */
+    align-self: flex-end;
 }
 
+/* アクション要素 */
 .message-actions a,
 .message-actions form {
-  display: inline-flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: center;
 }
 
+/* アクションボタン */
 .btn-action {
     font-size: 12px;
     color: #5F5F5F;
     background: none;
     border: none;
-    padding: 0;
+    padding: 0px;
     cursor: pointer;
     text-decoration: underline;
     line-height: 1.2;
-    text-decoration: none;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+/* 削除ボタン */
 .btn-delete {
     color: #5F5F5F;
     text-decoration: none;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+/* インラインフォーム */
 .inline-form {
     display: inline;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
-/* 編集モード */
+/* 編集モード本文 */
 .message-body.editing {
-  background-color: #D9D9D9;
-  border: 1px solid #5F5F5F;
-  border-radius: 6px;
-  padding: 8px 12px;
-  margin: 0;
+    background-color: #D9D9D9;
+    border: 1px solid #5F5F5F;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 0px;
 }
 
-/* テキストエリアを透過させて背景を透かす */
+/* 編集用テキストエリア */
 .edit-textarea {
     width: 100%;
     border: none;
@@ -293,39 +317,40 @@
     word-break: break-word;
 }
 
-/* 保存・キャンセルも既存の .btn-action と同じ見た目で */
+/* 保存・キャンセルボタン */
 .message-actions .btn-action {
-  color: #5F5F5F;
-  text-decoration: none;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    color: #5F5F5F;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-.message-actions {
-  gap: 12px;
-}
-
+/* 編集フォーム */
 .js-edit-form {
-  max-width: 70%;
+    max-width: 70%;
+    width: 90%;
+    margin: 0px auto;
 }
 
-/* 入力フォーム */
+/* 入力フォーム全体 */
 .chat-input {
     display: flex;
     flex-direction: column;
     background: #fff;
     padding: 12px 16px;
     position: sticky;
-    bottom: 0;
+    bottom: 0px;
     z-index: 1;
     gap: 6px;
 }
 
+/* 入力行 */
 .chat-input-row {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
+/* 入力テキストエリア */
 .chat-input textarea {
     flex: 1;
     resize: none;
@@ -335,6 +360,7 @@
     height: 44px;
 }
 
+/* 画像アップロードボタン */
 .btn-upload {
     position: relative;
     overflow: hidden;
@@ -347,12 +373,15 @@
     height: 44px;
 }
 
+/* 画像入力フィールド */
 .btn-upload input {
     position: absolute;
-    left: 0; top: 0;
+    left: 0px;
+    top: 0px;
     opacity: 0;
 }
 
+/* 送信アイコン */
 .send-icon {
     width: 44px;
     height: 44px;
@@ -360,6 +389,7 @@
     vertical-align: middle;
 }
 
+/* 送信ボタン */
 .btn-send {
     background: none;
     border: none;
@@ -367,6 +397,7 @@
     height: 44px;
 }
 
+/* 送信ボタンホバー */
 .btn-send:hover {
     opacity: 0.9;
 }
@@ -380,8 +411,137 @@
     margin-bottom: 4px;
 }
 
-.js-edit-form {
-  width: 90%;
-  max-width: none;
-  margin: 0 auto;
+/* PC画面（1400px～1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .chat-sidebar {
+        width: 180px;
+    }
+    .chat-header h2 {
+        font-size: 32px;
+    }
+    .chat-product .product-thumb {
+        width: 180px;
+        height: 180px;
+    }
+    .product-info .product-name {
+        font-size: 40px;
+    }
+    .product-info .product-price {
+        font-size: 32px;
+    }
+    .message-row {
+        padding: 5px 6px;
+    }
+    .message-body {
+        padding: 6px 10px;
+    }
+    .avatar-small {
+        width: 28px;
+        height: 28px;
+    }
+    .username {
+        font-size: 12px;
+    }
+    .message-body img {
+        max-width: 70%;
+    }
+    .chat-input textarea {
+        height: 40px;
+    }
+    .btn-upload,
+    .btn-send {
+        height: 40px;
+    }
+}
+
+/* タブレット画面（768px～850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .chat-page {
+        gap: 12px;
+    }
+    .chat-sidebar {
+        width: 150px;
+    }
+    .chat-sidebar h3 {
+        font-size: 24px;
+    }
+    .chat-header {
+        padding: 12px;
+        gap: 8px;
+    }
+    .chat-header .avatar {
+        width: 36px;
+        height: 36px;
+    }
+    .chat-header h2 {
+        font-size: 24px;
+    }
+    .btn-complete {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+    .chat-product {
+        gap: 12px;
+        padding: 8px 12px;
+    }
+    .chat-product .product-thumb {
+        width: 120px;
+        height: 120px;
+    }
+    .product-info .product-name {
+        font-size: 24px;
+    }
+    .product-info .product-price {
+        font-size: 20px;
+    }
+    .chat-messages {
+        padding: 8px 12px;
+    }
+    .message-row {
+        padding: 4px 6px;
+        margin-bottom: 8px;
+    }
+    .message-body {
+        padding: 6px 8px;
+    }
+    .avatar-small {
+        width: 24px;
+        height: 24px;
+    }
+    .username {
+        font-size: 11px;
+    }
+    .message-body img {
+        max-width: 60%;
+    }
+    .message-actions {
+        gap: 8px;
+    }
+    .btn-action {
+        font-size: 10px;
+    }
+    .js-edit-form {
+        max-width: 80%;
+    }
+    .chat-input {
+        padding: 8px 12px;
+    }
+    .chat-input-row {
+        gap: 6px;
+    }
+    .chat-input textarea {
+        height: 36px;
+        padding: 6px;
+    }
+    .btn-upload {
+        padding: 6px 10px;
+        height: 36px;
+    }
+    .send-icon {
+        width: 36px;
+        height: 36px;
+    }
+    .btn-send {
+        height: 36px;
+    }
 }

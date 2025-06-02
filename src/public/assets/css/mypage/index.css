@@ -286,14 +286,61 @@
 }
 
 
+/* PC表示 */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    .profile-name {
+        font-size: 32px;
+    }
+    .user-rating .star {
+        font-size: 20px;
+    }
     .item-list {
         margin: 0 auto;
         max-width: 90%;
     }
 }
 
+/* タブレット表示 */
 @media (min-width: 768px) and (max-width: 850px) {
+    .profile-image-container {
+        flex-wrap: nowrap;
+        padding: 16px;
+    }
+    .profile-image-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+    .profile-name {
+        font-size: 28px;
+    }
+    .user-rating .star {
+        font-size: 18px;
+    }
+    .profile-edit-btn {
+        font-size: 16px;
+        padding: 8px 14px;
+    }
+    .tab-menu {
+        gap: 12px;
+        padding: 0 12px;
+        margin-top: 16px;
+    }
+    .tab-menu li {
+        margin-left: 80px;
+    }
+    .tab-link {
+        padding: 8px 0;
+        font-size: 14px;
+        margin-left: 6px;
+    }
+    .tab-badge {
+        font-size: 12px;
+        min-width: 16px;
+    }
     .item-list {
         justify-content: space-between;
         margin: 0 auto;
